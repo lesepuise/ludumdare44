@@ -151,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabToInstantiate:
   - {fileID: 1169935573226983563, guid: 511d87b2df73a3d4085cfd587e09b803, type: 3}
+  - {fileID: 1276445363040777778, guid: 2e5a62462dee79f46b5e72bb83a0758f, type: 3}
 --- !u!4 &1089286593
 Transform:
   m_ObjectHideFlags: 0

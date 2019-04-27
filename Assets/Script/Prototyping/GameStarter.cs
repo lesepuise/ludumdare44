@@ -27,6 +27,8 @@ namespace CleverCode
         {
             DontDestroyOnLoad(gameObject);
 
+            Layer.Init();
+
             name = "Managers";
 
             foreach (GameObject prefab in prefabToInstantiate)
