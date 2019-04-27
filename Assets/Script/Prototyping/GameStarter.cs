@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using CleverCode;
+using UnityEngine.SceneManagement;
 
 namespace CleverCode
 {
@@ -13,6 +14,8 @@ namespace CleverCode
         void Awake()
         {
             InitGame();
+
+            SceneManager.LoadScene(1);
         }
 
         private void InitGame()
