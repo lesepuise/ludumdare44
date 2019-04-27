@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CleverCode;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ShopMenu : MonoBehaviour
@@ -10,7 +11,7 @@ public class ShopMenu : MonoBehaviour
     {
         if (GameManager.Instance == null)
         {
-            GameManager.StartGameCorrectly();
+            GameStarter.StartGameCorrectly();
         }
     }
 

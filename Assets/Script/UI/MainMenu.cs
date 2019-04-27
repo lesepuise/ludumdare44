@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using CleverCode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +10,7 @@ public class MainMenu : MonoBehaviour
     {
         if (GameManager.Instance == null)
         {
-            GameManager.StartGameCorrectly();
+            GameStarter.StartGameCorrectly();
         }
     }
 

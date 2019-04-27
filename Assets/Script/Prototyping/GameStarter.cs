@@ -11,6 +11,11 @@ namespace CleverCode
         [CheapReorderable]
         public List<GameObject> prefabToInstantiate;
 
+        public static void StartGameCorrectly()
+        {
+            SceneManager.LoadScene(0);
+        }
+
         void Awake()
         {
             InitGame();
