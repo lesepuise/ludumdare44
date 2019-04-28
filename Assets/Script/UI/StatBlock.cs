@@ -9,6 +9,7 @@ public class StatBlock : MonoBehaviour
     public Text value;
 
     public Func<float> getter;
+    public Func<string> stringGetter;
 
     public void Init(string statName, Func<float> getter)
     {
@@ -17,11 +18,26 @@ public class StatBlock : MonoBehaviour
         this.getter = getter;
     }
 
+    public void Init(string statName, Func<string> getter)
+    {
+        label.text = statName;
+
+        stringGetter = getter;
+    }
+
     public void Update()
     {
         if (PlayerData.Instance.CurrentPlayer)
         {
-            value.text = getter().ToString("F1");
+            if (getter != null)
+            {
+                value.text = getter().ToString("F1");
+            }
+
+            if (stringGetter != null)
+            {
+                value.text = stringGetter();
+            }
         }
     }
 }

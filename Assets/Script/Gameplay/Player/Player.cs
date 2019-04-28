@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Rigidbody _rigidBody;
+    [Header("Parts")] [SerializeField] private Rigidbody _rigidBody;
     [SerializeField] private Transform _ball;
     [SerializeField] private Transform _spikes;
 
-    [SerializeField] private PlayerCamera _camera;
+    [Header("Camera")] [SerializeField] private PlayerCamera _camera;
 
     [SerializeField] private float _cameraBaseDist;
     [SerializeField] private float _cameraDistPerSize;
@@ -83,6 +83,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        UpdateJump(); //cannot be in fixed update, need to check input GetKeyDown, only valid in main loop
+
         UpdateCamera();
         UpdateCheats();
     }
@@ -93,7 +95,7 @@ public class Player : MonoBehaviour
 
         UpdatePhysicState();
 
-        UpdateControls();
+        UpdateMovement();
         UpdateVelocity();
 
         UpdateLastMovements();
@@ -121,17 +123,28 @@ public class Player : MonoBehaviour
 
         if (!wasGrounded && IsGrounded)
         {
-            Debug.Log("Hit the ground! -- Last Vel : " + lastVerticalVel + " New Vel : " + _verticalVel);
+            OnHitTheGround(_verticalVel - lastVerticalVel);
+        }
+    }
+
+    private void OnHitTheGround(float impactStrength)
+    {
+        if (impactStrength > 9f) //big impact
+        {
+
+        }
+        else if (impactStrength > 4f) //medium Impact
+        {
+            //BELUG : put sound here
+        }
+        else if (impactStrength > 1f) //Small Impact
+        {
+
         }
     }
 
     private void UpdatePhysicState()
     {
-        return;
-
-        bool wasGrounded = IsGrounded;
-
-        IsGrounded = CheckIfGrounded();
         _verticalVel = _rigidBody.velocity.y;
     }
 
@@ -144,17 +157,6 @@ public class Player : MonoBehaviour
         return !_paused;
     }
 
-    private void UpdateControls()
-    {
-        if (!CanControl())
-        {
-            return;
-        }
-
-        UpdateJump();
-        UpdateMovement();
-    }
-
     private bool CanJump()
     {
         return IsGrounded && !Spiky;
@@ -162,7 +164,7 @@ public class Player : MonoBehaviour
 
     private void UpdateJump()
     {
-        if (!CanJump())
+        if (!CanControl() || !CanJump())
         {
             return;
         }
@@ -190,6 +192,11 @@ public class Player : MonoBehaviour
 
     private void UpdateMovement()
     {
+        if (!CanControl())
+        {
+            return;
+        }
+
         float strenghtFactor = GetStrengthFactor();
 
         Vector3 movement = Vector3.zero;
@@ -210,27 +217,6 @@ public class Player : MonoBehaviour
     private bool RightKey => Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
 
     #endregion
-
-    private bool CheckIfGrounded()
-    {
-        int layerMask = 1 << Layer.Scenery;
-        layerMask += 1 << Layer.Obstacle;
-
-        float minDist = GetCurrentSize() * 0.05f;
-        if (Spiky)
-        {
-            minDist += GetCurrentSize() * 0.05f;
-        }
-
-        Vector3 targetPos = transform.position + Vector3.down * minDist;
-
-        if (Physics.CheckSphere(targetPos, GetCurrentSize(), layerMask, QueryTriggerInteraction.Collide))
-        {
-            return true;
-        }
-
-        return false;
-    }
 
     #endregion
 
@@ -319,18 +305,16 @@ public class Player : MonoBehaviour
     {
         if (IsGrounded)
         {
-
         }
     }
 
     private void LoseLife(float lifeToLose)
     {
-
     }
 
     private void LoseLifePercent(float percentToLose)
     {
-        
+
     }
 
     #endregion
@@ -385,6 +369,11 @@ public class Player : MonoBehaviour
     private int _collisionCount;
     private Vector3 _lastContactNormal;
 
+    private void OnRemoveSpikes()
+    {
+        _collisionCount = 0;
+    }
+
     private void CalculateCollisionNormal(Collision col)
     {
         Vector3 normals = Vector3.zero;
@@ -428,6 +417,7 @@ public class Player : MonoBehaviour
         if (IsCollisionValid(col))
         {
             _collisionCount--;
+            _collisionCount = Mathf.Max(0, _collisionCount);
         }
 
         UpdateGrounded();
@@ -442,6 +432,11 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             _spikes.gameObject.SetActive(!Spiky);
+
+            if (!Spiky)
+            {
+                OnRemoveSpikes();
+            }
         }
     }
 

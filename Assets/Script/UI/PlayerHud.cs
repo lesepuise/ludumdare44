@@ -33,12 +33,21 @@ public class PlayerHud : Singleton<PlayerHud>
 
         SpawnStat("Size", player.GetCurrentSize);
         SpawnStat("Weight", player.GetCurrentWeight);
+
+        SpawnStringStat("Grounded", () => player.IsGrounded ? "Grounded" : "Flying");
     }
 
-    private void SpawnStat(string statName, Func<float> StatGetter)
+    private void SpawnStat(string statName, Func<float> statGetter)
     {
         StatBlock newStat = Instantiate(_statBlockTemplate, _statBlockTemplate.transform.parent);
-        newStat.Init(statName, StatGetter);
+        newStat.Init(statName, statGetter);
+        newStat.gameObject.SetActive(true);
+    }
+
+    private void SpawnStringStat(string statName, Func<string> statGetter)
+    {
+        StatBlock newStat = Instantiate(_statBlockTemplate, _statBlockTemplate.transform.parent);
+        newStat.Init(statName, statGetter);
         newStat.gameObject.SetActive(true);
     }
 
