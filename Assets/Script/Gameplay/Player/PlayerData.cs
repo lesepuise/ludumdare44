@@ -15,6 +15,7 @@ public class PlayerData : Singleton<PlayerData>
     [SerializeField] private float _baseMaxSpeed = 10f;
 
     [SerializeField] private float _baseLifeLossFactor = 1f;
+    [SerializeField] private float _baseLifeGainFactor = -2f;
     [SerializeField] private float _baseJumpCost = 0.5f;
 
     public void RegisterPlayer(Player player)
@@ -138,11 +139,17 @@ public class PlayerData : Singleton<PlayerData>
     #region Life
 
     private float _lifeLossFactor;
+    private float _lifeGainFactor;
     private float _jumpCost;
 
     public float GetLifeLossFactor()
     {
         return _lifeLossFactor;
+    }
+
+    public float GetLifeGainFactor()
+    {
+        return _lifeGainFactor;
     }
 
     public float GetJumpCost()
@@ -153,9 +160,11 @@ public class PlayerData : Singleton<PlayerData>
     private void CalculateLifeCosts()
     {
         _lifeLossFactor = _baseLifeLossFactor;
+        _lifeGainFactor = _baseLifeGainFactor;
         _jumpCost = _baseJumpCost;
 
         PowerupManager.Instance.PassivePowers.GetPassivePowers().ForEach(power => power.AffectLifeLossFactor( ref _lifeLossFactor));
+        PowerupManager.Instance.PassivePowers.GetPassivePowers().ForEach(power => power.AffectLifeLossFactor( ref _lifeGainFactor));
         PowerupManager.Instance.PassivePowers.GetPassivePowers().ForEach(power => power.AffectJumpCost(ref _jumpCost));
     }
 

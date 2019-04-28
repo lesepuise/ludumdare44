@@ -7,19 +7,31 @@ public class SnowPatch : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("In");
         if (other.gameObject.layer == Layer.Ball)
         {
-            Player player = other.gameObject.GetComponent<Player>();
+            Debug.Log("Payler found");
+            Player player = other.transform.parent.gameObject.GetComponent<Player>();
             player.IsGainingSnow = true;
+        }
+        else
+        {
+            Debug.Log(other.GetType());
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log("Out");
         if (other.gameObject.layer == Layer.Ball)
         {
-            Player player = other.gameObject.GetComponent<Player>();
-            player.IsGainingSnow = true;
+            Debug.Log("Payler found");
+            Player player = other.transform.parent.gameObject.GetComponent<Player>();
+            player.IsGainingSnow = false;
+        }
+        else
+        {
+            Debug.Log(other.GetType());
         }
     }
 }

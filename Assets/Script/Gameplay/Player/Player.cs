@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     private float Strength => PlayerData.Instance.GetStrength();
     private float StartSize => PlayerData.Instance.GetSize();
     private float LifeLossFactor => PlayerData.Instance.GetLifeLossFactor();
+    private float LifeGainFactor => PlayerData.Instance.GetLifeGainFactor();
     private float JumpCost => PlayerData.Instance.GetJumpCost();
 
     private float WeightRatio => PlayerData.Instance.GetWeightRatio();
@@ -70,13 +71,13 @@ public class Player : MonoBehaviour
         InitBall();
 
         _spikes.gameObject.SetActive(false);
-        IsGainingSnow = true;
     }
 
     private void InitBall()
     {
         SetLifeFromSize(StartSize);
 
+        IsGainingSnow = false;
         transform.position += Vector3.up * StartSize / 2f;
     }
 
@@ -352,7 +353,7 @@ public class Player : MonoBehaviour
         float lifeToLoose = 0;
         if (IsGainingSnow)
         {
-            lifeToLoose = _rigidBody.velocity.magnitude * GetCurrentSize() * -LifeLossFactor;
+            lifeToLoose = _rigidBody.velocity.magnitude * GetCurrentSize() * LifeGainFactor;
         }
         else
         {
