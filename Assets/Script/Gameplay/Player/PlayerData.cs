@@ -9,8 +9,11 @@ public class PlayerData : Singleton<PlayerData>
     [NonSerialized] public Player CurrentPlayer;
 
     [SerializeField] private float _baseStrength = 1f;
+    [SerializeField] private float _baseJumpStrength = 10f;
+
     [SerializeField] private float _baseSize = 0.2f;
     [SerializeField] private float _baseMaxSpeed = 10f;
+
     [SerializeField] private float _baseLifeLossFactor = 1f;
     [SerializeField] private float _baseJumpCost = 0.5f;
 
@@ -37,6 +40,7 @@ public class PlayerData : Singleton<PlayerData>
 
         CalculateWeightRatio();
         CalculateLifeCosts();
+        CalculateJumpStrength();
     }
 
     #region Strength
@@ -51,6 +55,8 @@ public class PlayerData : Singleton<PlayerData>
     private void CalculateStrength()
     {
         _calculatedStrength = _baseStrength;
+
+        PowerupManager.Instance.PassivePowers.GetPassivePowers().ForEach(power => power.AffectStrength(ref _calculatedStrength));
     }
 
     #endregion
@@ -67,6 +73,8 @@ public class PlayerData : Singleton<PlayerData>
     private void CalculateWeightRatio()
     {
         _calculatedWeightRatio = 1f;
+
+        PowerupManager.Instance.PassivePowers.GetPassivePowers().ForEach(power => power.AffectWeightRatio(ref _calculatedWeightRatio));
     }
 
     #endregion
@@ -85,11 +93,27 @@ public class PlayerData : Singleton<PlayerData>
     private void CalculateMaxSpeed()
     {
         _calculatedMaxSpeed = _baseMaxSpeed;
+
+        PowerupManager.Instance.PassivePowers.GetPassivePowers().ForEach(power => power.AffectMaxSpeed(ref _calculatedMaxSpeed));
     }
 
     #endregion
 
     #region Jump Strength
+
+    private float _calculatedJumpStrength;
+
+    public float GetJumpStrength()
+    {
+        return _calculatedJumpStrength;
+    }
+
+    private void CalculateJumpStrength()
+    {
+        _calculatedJumpStrength = _baseJumpStrength;
+
+        PowerupManager.Instance.PassivePowers.GetPassivePowers().ForEach(power => power.AffectJumpStrength(ref _calculatedJumpStrength));
+    }
 
     #endregion
 
@@ -105,6 +129,8 @@ public class PlayerData : Singleton<PlayerData>
     private void CalculateSize()
     {
         _calculatedSize = _baseSize;
+
+        PowerupManager.Instance.PassivePowers.GetPassivePowers().ForEach(power => power.AffectStartSize(ref _calculatedSize));
     }
 
     #endregion
@@ -128,6 +154,9 @@ public class PlayerData : Singleton<PlayerData>
     {
         _lifeLossFactor = _baseLifeLossFactor;
         _jumpCost = _baseJumpCost;
+
+        PowerupManager.Instance.PassivePowers.GetPassivePowers().ForEach(power => power.AffectLifeLossFactor( ref _lifeLossFactor));
+        PowerupManager.Instance.PassivePowers.GetPassivePowers().ForEach(power => power.AffectJumpCost(ref _jumpCost));
     }
 
     #endregion

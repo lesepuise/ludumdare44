@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     private float JumpCost => PlayerData.Instance.GetJumpCost();
 
     private float WeightRatio => PlayerData.Instance.GetWeightRatio();
-    private float JumpStrength => 10f;
+    private float JumpStrength => PlayerData.Instance.GetJumpStrength();
 
     private float _life;
 
@@ -129,13 +129,17 @@ public class Player : MonoBehaviour
     {
         if (impactStrength > 9f) //big impact
         {
+            //TODO : Lose life, big time
+            _landSound.Play();
         }
         else if (impactStrength > 4f) //medium Impact
         {
-            //BELUG : put sound here
+            //TODO : Lose life, just a bit
+            _landSound.Play();
         }
         else if (impactStrength > 1f) //Small Impact
         {
+            //TODO : Lose life? nah, you're fine
         }
     }
 
@@ -177,7 +181,7 @@ public class Player : MonoBehaviour
 
         LoseLifePercent(JumpCost);
 
-        _rigidBody.AddForce(Vector3.up * GetJumpStrength(), ForceMode.VelocityChange);
+        _rigidBody.AddForce(_lastContactNormal * GetJumpStrength(), ForceMode.VelocityChange);
     }
 
     private float GetJumpStrength()
@@ -232,6 +236,11 @@ public class Player : MonoBehaviour
 
     private void UpdateVelocity()
     {
+        if (_currentSize < 0.025f) //fallback
+        {
+            _rigidBody.velocity = Vector3.zero;
+        }
+
         Vector3 vel = _rigidBody.velocity;
         Vector3 velHorizontal = vel;
         velHorizontal.y = 0f;
@@ -334,15 +343,9 @@ public class Player : MonoBehaviour
 
     private void UpdateLifeOnMoving()
     {
-        if (!IsGrounded)
-        {
-            return;
-        }
-
-        if (Spiky)
-        {
-            return;
-        }
+        if (!LevelManager.Instance.GameInProgress) return;
+        if (!IsGrounded) return;
+        if (Spiky) return;
 
         float lifeToLoose = _rigidBody.velocity.magnitude * GetCurrentSize() * LifeLossFactor;
 
@@ -361,7 +364,6 @@ public class Player : MonoBehaviour
 
     private void OnLifeLoss(float lostLife)
     {
-
     }
 
     private void SetLife(float newLife)

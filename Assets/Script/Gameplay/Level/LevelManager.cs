@@ -10,7 +10,7 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private StartingPoint _startingPoint;
     [SerializeField] private Transform _targetPoint;
 
-    private bool _gameInProgress => !won && !lost;
+    public bool GameInProgress => !won && !lost;
 
     [NonSerialized]
     public bool won;
@@ -41,7 +41,7 @@ public class LevelManager : Singleton<LevelManager>
 
     private void GameLoop()
     {
-        if (!_gameInProgress)
+        if (!GameInProgress)
         {
             return;
         }
