@@ -1,9 +1,10 @@
-﻿using CleverCode;
+﻿using System;
+using CleverCode;
 using UnityEngine;
 
 public class PlayerData : Singleton<PlayerData>
 {
-    public Player CurrentPlayer;
+    [NonSerialized] public Player CurrentPlayer;
 
     [SerializeField] private float _baseStrength = 1f;
     [SerializeField] private float _baseSize = 0.2f;

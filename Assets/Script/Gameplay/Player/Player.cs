@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     private bool Spiky => _spikes.gameObject.activeSelf;
 
     private float MaxSpeed => PlayerData.Instance.GetMaxSpeed();
-    private float Strength => PlayerData.Instance.GetStrength() * (Spiky ? 2f : 1f);
+    private float Strength => PlayerData.Instance.GetStrength();
     private float StartSize => PlayerData.Instance.GetSize();
 
     private float WeightRatio => PlayerData.Instance.GetWeightRatio();
@@ -89,15 +89,53 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        UpdateWeight();
+
+        UpdatePhysicState();
+
         UpdateControls();
         UpdateVelocity();
+
         UpdateLastMovements();
+        UpdateLife();
     }
 
     public void Pause()
     {
         _paused = true;
     }
+
+    #region Physical State
+
+    private float _verticalVel;
+
+    public bool IsGrounded { get; private set; }
+
+    private void UpdateGrounded()
+    {
+        bool wasGrounded = IsGrounded;
+        float lastVerticalVel = _verticalVel;
+
+        IsGrounded = _collisionCount > 0 && _lastContactNormal.y > 0;
+        _verticalVel = _rigidBody.velocity.y;
+
+        if (!wasGrounded && IsGrounded)
+        {
+            Debug.Log("Hit the ground! -- Last Vel : " + lastVerticalVel + " New Vel : " + _verticalVel);
+        }
+    }
+
+    private void UpdatePhysicState()
+    {
+        return;
+
+        bool wasGrounded = IsGrounded;
+
+        IsGrounded = CheckIfGrounded();
+        _verticalVel = _rigidBody.velocity.y;
+    }
+
+    #endregion
 
     #region Controls
 
@@ -119,7 +157,7 @@ public class Player : MonoBehaviour
 
     private bool CanJump()
     {
-        return IsGrounded();
+        return IsGrounded && !Spiky;
     }
 
     private void UpdateJump()
@@ -140,12 +178,19 @@ public class Player : MonoBehaviour
         return JumpStrength;
     }
 
+    private float GetStrengthFactor()
+    {
+        float factor = 1f;
+
+        if (Spiky) factor *= 2f;
+        if (!IsGrounded) factor *= 0.5f;
+
+        return factor;
+    }
+
     private void UpdateMovement()
     {
-        if (!IsGrounded())
-        {
-            return;
-        }
+        float strenghtFactor = GetStrengthFactor();
 
         Vector3 movement = Vector3.zero;
 
@@ -154,7 +199,7 @@ public class Player : MonoBehaviour
         if (DownKey) movement += -GetForward();
         if (RightKey) movement += GetRight();
 
-        _rigidBody.AddForce(movement * Strength, ForceMode.Acceleration);
+        _rigidBody.AddForce(movement * Strength * strenghtFactor, ForceMode.Force);
     }
 
     #region Keys
@@ -166,7 +211,7 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    private bool IsGrounded()
+    private bool CheckIfGrounded()
     {
         int layerMask = 1 << Layer.Scenery;
         layerMask += 1 << Layer.Obstacle;
@@ -237,7 +282,7 @@ public class Player : MonoBehaviour
 
         dist += GetCurrentSize() * _cameraDistPerSize;
         dist += Mathf.Max(_cameraDistMinSpeed, GetCurrentSpeed() * _cameraDistPerSpeed);
-        
+
         return dist;
     }
 
@@ -252,23 +297,40 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    #region Cheats
-
-    private void UpdateCheats()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            _spikes.gameObject.SetActive(!Spiky);
-        }
-    }
-
-    #endregion
-
     #region Weight
 
     public float GetCurrentWeight()
     {
         return GetCurrentSize() * WeightRatio;
+    }
+
+    public float UpdateWeight()
+    {
+        return _rigidBody.mass = GetCurrentWeight();
+    }
+
+    #endregion
+
+    #region Life
+
+    //To be, or not to be
+
+    private void UpdateLife()
+    {
+        if (IsGrounded)
+        {
+
+        }
+    }
+
+    private void LoseLife(float lifeToLose)
+    {
+
+    }
+
+    private void LoseLifePercent(float percentToLose)
+    {
+        
     }
 
     #endregion
@@ -313,6 +375,73 @@ public class Player : MonoBehaviour
         {
             this.time = time;
             this.movement = movement;
+        }
+    }
+
+    #endregion
+
+    #region Collision Management
+
+    private int _collisionCount;
+    private Vector3 _lastContactNormal;
+
+    private void CalculateCollisionNormal(Collision col)
+    {
+        Vector3 normals = Vector3.zero;
+
+        for (int i = 0; i < col.contactCount; i++)
+        {
+            normals += col.GetContact(i).normal;
+        }
+
+        _lastContactNormal = normals / col.contactCount;
+    }
+
+    private bool IsCollisionValid(Collision col)
+    {
+        bool layer = col.gameObject.layer == Layer.Scenery || col.gameObject.layer == Layer.Obstacle;
+
+        return layer;
+    }
+
+    private void OnCollisionEnter(Collision col)
+    {
+        if (IsCollisionValid(col))
+        {
+            CalculateCollisionNormal(col);
+            _collisionCount++;
+        }
+
+        UpdateGrounded();
+    }
+
+    private void OnCollisionStay(Collision col)
+    {
+        if (IsCollisionValid(col))
+        {
+            CalculateCollisionNormal(col);
+        }
+    }
+
+    private void OnCollisionExit(Collision col)
+    {
+        if (IsCollisionValid(col))
+        {
+            _collisionCount--;
+        }
+
+        UpdateGrounded();
+    }
+
+    #endregion
+
+    #region Cheats
+
+    private void UpdateCheats()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            _spikes.gameObject.SetActive(!Spiky);
         }
     }
 

@@ -65,7 +65,7 @@ public class LevelManager : Singleton<LevelManager>
             return;
         }
 
-        if (player.LastMovementsValid() && player.GetLastSecondMovement() < 0.05f)
+        if (player.LastMovementsValid() && player.GetLastSecondMovement() < GameManager.Instance.maxMovementForDeath)
         {
             StartDefeatSequence();
         }

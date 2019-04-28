@@ -1678,6 +1678,19 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!65 &1427712103
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393925101791667051}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000001, y: 1, z: 1.0000001}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &6715451112762621808
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1750,8 +1763,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8981408828670871469, guid: 5e09fae63443a114690ec0cc3fc8fff3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7933526527595762699, guid: 5e09fae63443a114690ec0cc3fc8fff3,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e09fae63443a114690ec0cc3fc8fff3, type: 3}
+--- !u!1 &8393925101791667051 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2976638961036909595, guid: 5e09fae63443a114690ec0cc3fc8fff3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6715451112762621808}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2292835177788578930 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4819936025737175810, guid: 5e09fae63443a114690ec0cc3fc8fff3,
