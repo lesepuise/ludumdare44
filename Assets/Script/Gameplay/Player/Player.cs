@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     private float MaxSpeed => PlayerData.Instance.GetMaxSpeed();
     private float Strength => PlayerData.Instance.GetStrength() * (Spiky ? 2f : 1f);
     private float StartSize => PlayerData.Instance.GetSize();
+
+    private float WeightRatio => PlayerData.Instance.GetWeightRatio();
     private float JumpStrength => 10f;
 
     private float _currentSize;
@@ -82,9 +84,12 @@ public class Player : MonoBehaviour
     private void Update()
     {
         UpdateCamera();
-        UpdateControls();
         UpdateCheats();
+    }
 
+    private void FixedUpdate()
+    {
+        UpdateControls();
         UpdateVelocity();
         UpdateLastMovements();
     }
@@ -259,11 +264,11 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    #region Size
+    #region Weight
 
     public float GetCurrentWeight()
     {
-        return 1f;
+        return GetCurrentSize() * WeightRatio;
     }
 
     #endregion

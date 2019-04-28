@@ -29,6 +29,8 @@ public class PlayerData : Singleton<PlayerData>
         CalculateStrength();
         CalculateSize();
         CalculateMaxSpeed();
+
+        CalculateWeightRatio();
     }
 
     #region Strength
@@ -51,6 +53,22 @@ public class PlayerData : Singleton<PlayerData>
         Debug.Log("Linux")
         _calculatedStrength *= 1.2f;
 #endif
+    }
+
+    #endregion
+
+    #region Weight Ratio
+
+    private float _calculatedWeightRatio;
+
+    public float GetWeightRatio()
+    {
+        return _calculatedWeightRatio;
+    }
+
+    private void CalculateWeightRatio()
+    {
+        _calculatedWeightRatio = 1f;
     }
 
     #endregion
