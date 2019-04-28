@@ -66,15 +66,39 @@ public class MusicManager : Singleton<MusicManager>
 
     public void setPlayerSpeed(float playerSpeed)
     {
-        Debug.Log(playerSpeed);
-        if (playerSpeed >= 15)
+        if (playerSpeed >= 17)
         {
+            _GameMusicFast.volume = 1;
+            _GameMusicMedium.volume = 1;
+            
             _GameMusicFast.mute = false;
             _GameMusicMedium.mute = false;
             _GameMusicSlow.mute = false;
         }
-        else if (playerSpeed >= 5)
+        else if (playerSpeed >= 13)
         {
+            float FastVolume = (playerSpeed - 4) / 4.0f;
+            _GameMusicFast.volume = FastVolume;
+            _GameMusicMedium.volume = 1;
+
+            _GameMusicFast.mute = false;
+            _GameMusicMedium.mute = false;
+            _GameMusicSlow.mute = false;
+        }
+        else if (playerSpeed >= 6)
+        {
+            _GameMusicMedium.volume = 1;
+
+            _GameMusicFast.mute = true;
+            _GameMusicMedium.mute = false;
+            _GameMusicSlow.mute = false;
+        }
+        else if (playerSpeed >= 4)
+        {
+            float MedVolume = (playerSpeed - 4) / 2.0f;
+            Debug.Log(MedVolume);
+            _GameMusicMedium.volume = MedVolume;
+
             _GameMusicFast.mute = true;
             _GameMusicMedium.mute = false;
             _GameMusicSlow.mute = false;
