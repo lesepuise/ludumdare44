@@ -77,7 +77,7 @@ public class MusicManager : Singleton<MusicManager>
         }
         else if (playerSpeed >= 13)
         {
-            float FastVolume = (playerSpeed - 4) / 4.0f;
+            float FastVolume = (playerSpeed - 13) / 4.0f;
             _GameMusicFast.volume = FastVolume;
             _GameMusicMedium.volume = 1;
 
@@ -96,7 +96,6 @@ public class MusicManager : Singleton<MusicManager>
         else if (playerSpeed >= 4)
         {
             float MedVolume = (playerSpeed - 4) / 2.0f;
-            Debug.Log(MedVolume);
             _GameMusicMedium.volume = MedVolume;
 
             _GameMusicFast.mute = true;
