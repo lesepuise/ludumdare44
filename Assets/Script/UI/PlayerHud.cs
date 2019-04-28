@@ -28,6 +28,8 @@ public class PlayerHud : Singleton<PlayerHud>
     {
         Player player = PlayerData.Instance.CurrentPlayer;
 
+        SpawnStat("Life", player.GetLife);
+
         SpawnStat("Speed", player.GetCurrentSpeed);
         SpawnStat("Height", player.GetCurrentHeight);
 

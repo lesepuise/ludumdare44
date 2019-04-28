@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class PlayerData : Singleton<PlayerData>
 {
+    private const float LifeFactor = 5000f;
+
     [NonSerialized] public Player CurrentPlayer;
 
     [SerializeField] private float _baseStrength = 1f;
     [SerializeField] private float _baseSize = 0.2f;
     [SerializeField] private float _baseMaxSpeed = 10f;
+    [SerializeField] private float _baseLifeLossFactor = 1f;
+    [SerializeField] private float _baseJumpCost = 0.5f;
 
     public void RegisterPlayer(Player player)
     {
@@ -32,6 +36,7 @@ public class PlayerData : Singleton<PlayerData>
         CalculateMaxSpeed();
 
         CalculateWeightRatio();
+        CalculateLifeCosts();
     }
 
     #region Strength
@@ -70,9 +75,11 @@ public class PlayerData : Singleton<PlayerData>
 
     private float _calculatedMaxSpeed;
 
-    public float GetMaxSpeed()
+    public float GetMaxSpeed(float currentSize)
     {
-        return _calculatedMaxSpeed;
+        float ratio = Mathf.Sqrt(currentSize);
+
+        return _calculatedMaxSpeed * ratio;
     }
 
     private void CalculateMaxSpeed()
@@ -98,6 +105,50 @@ public class PlayerData : Singleton<PlayerData>
     private void CalculateSize()
     {
         _calculatedSize = _baseSize;
+    }
+
+    #endregion
+
+    #region Life
+
+    private float _lifeLossFactor;
+    private float _jumpCost;
+
+    public float GetLifeLossFactor()
+    {
+        return _lifeLossFactor;
+    }
+
+    public float GetJumpCost()
+    {
+        return _jumpCost;
+    }
+
+    private void CalculateLifeCosts()
+    {
+        _lifeLossFactor = _baseLifeLossFactor;
+        _jumpCost = _baseJumpCost;
+    }
+
+    #endregion
+
+    #region Helper Function
+
+    private const float SphereRatio = Mathf.PI * 1.3333f;
+
+    public static float SizeToLife(float size)
+    {
+        float life = size * size * size * SphereRatio;
+
+        return life * LifeFactor;
+    }
+
+    public static float LifeToSize(float life)
+    {
+        life /= LifeFactor;
+        life /= SphereRatio;
+
+        return Mathf.Pow(life, 0.33333f);
     }
 
     #endregion

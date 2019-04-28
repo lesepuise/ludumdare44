@@ -44,5 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseStrength: 1.25
-  _baseSize: 0.2
-  _baseMaxSpeed: 15
+  _baseSize: 0.3
+  _baseMaxSpeed: 30
+  _baseLifeLossFactor: 1
+  _baseJumpCost: 0.5

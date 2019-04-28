@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _spikes;
 
     [Header("Camera")] [SerializeField] private PlayerCamera _camera;
-
     [SerializeField] private AudioSource _landSound;
 
     [SerializeField] private AudioSource _hitSound;
@@ -27,26 +26,19 @@ public class Player : MonoBehaviour
 
     private bool Spiky => _spikes.gameObject.activeSelf;
 
-    private float MaxSpeed => PlayerData.Instance.GetMaxSpeed();
+    private float MaxSpeed => PlayerData.Instance.GetMaxSpeed(GetCurrentSize());
     private float Strength => PlayerData.Instance.GetStrength();
     private float StartSize => PlayerData.Instance.GetSize();
+    private float LifeLossFactor => PlayerData.Instance.GetLifeLossFactor();
+    private float JumpCost => PlayerData.Instance.GetJumpCost();
 
     private float WeightRatio => PlayerData.Instance.GetWeightRatio();
     private float JumpStrength => 10f;
 
+    private float _life;
+
     private float _currentSize;
     private bool _paused;
-
-    public float GetCurrentSize()
-    {
-        return _currentSize;
-    }
-
-    public void SetCurrentSize(float value)
-    {
-        _currentSize = value;
-        SetScale(_currentSize);
-    }
 
     public float GetCurrentHeight()
     {
@@ -82,7 +74,7 @@ public class Player : MonoBehaviour
 
     private void InitBall()
     {
-        SetCurrentSize(StartSize);
+        SetLifeFromSize(StartSize);
 
         transform.position += Vector3.up * StartSize / 2f;
     }
@@ -105,7 +97,7 @@ public class Player : MonoBehaviour
         UpdateVelocity();
 
         UpdateLastMovements();
-        UpdateLife();
+        UpdateLifeOnMoving();
     }
 
     public void Pause()
@@ -137,7 +129,6 @@ public class Player : MonoBehaviour
     {
         if (impactStrength > 9f) //big impact
         {
-
         }
         else if (impactStrength > 4f) //medium Impact
         {
@@ -145,7 +136,6 @@ public class Player : MonoBehaviour
         }
         else if (impactStrength > 1f) //Small Impact
         {
-
         }
     }
 
@@ -177,9 +167,17 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _jumpSound.Play();
-            _rigidBody.AddForce(Vector3.up * GetJumpStrength(), ForceMode.VelocityChange);
+            Jump();
         }
+    }
+
+    private void Jump()
+    {
+        _jumpSound.Play();
+
+        LoseLifePercent(JumpCost);
+
+        _rigidBody.AddForce(Vector3.up * GetJumpStrength(), ForceMode.VelocityChange);
     }
 
     private float GetJumpStrength()
@@ -286,6 +284,24 @@ public class Player : MonoBehaviour
 
     #region Size
 
+    public void RecalculateSize()
+    {
+        SetCurrentSize(PlayerData.LifeToSize(_life));
+    }
+
+    public float GetCurrentSize()
+    {
+        return _currentSize;
+    }
+
+    public void SetCurrentSize(float value)
+    {
+        _currentSize = value;
+        SetScale(_currentSize);
+
+        UpdateWeight();
+    }
+
     private void SetScale(float newScale)
     {
         _ball.localScale = Vector3.one * newScale;
@@ -311,20 +327,61 @@ public class Player : MonoBehaviour
 
     //To be, or not to be
 
-    private void UpdateLife()
+    private void SetLifeFromSize(float startSize)
     {
-        if (IsGrounded)
+        SetLife(PlayerData.SizeToLife(startSize));
+    }
+
+    private void UpdateLifeOnMoving()
+    {
+        if (!IsGrounded)
         {
+            return;
         }
+
+        if (Spiky)
+        {
+            return;
+        }
+
+        float lifeToLoose = _rigidBody.velocity.magnitude * GetCurrentSize() * LifeLossFactor;
+
+        LoseLife(lifeToLoose);
     }
 
     private void LoseLife(float lifeToLose)
     {
+        SetLife(_life - lifeToLose);
     }
 
     private void LoseLifePercent(float percentToLose)
     {
+        SetLife(_life - _life * percentToLose);
+    }
 
+    private void OnLifeLoss(float lostLife)
+    {
+
+    }
+
+    private void SetLife(float newLife)
+    {
+        newLife = Mathf.Max(0, newLife);
+
+        float lastLife = _life;
+        _life = newLife;
+
+        if (newLife < lastLife)
+        {
+            OnLifeLoss(lastLife - newLife);
+        }
+
+        RecalculateSize();
+    }
+
+    public float GetLife()
+    {
+        return _life;
     }
 
     #endregion
