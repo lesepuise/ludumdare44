@@ -3,9 +3,21 @@ using UnityEngine;
 
 public class PlayerData : Singleton<PlayerData>
 {
+    public Player CurrentPlayer;
+
     [SerializeField] private float _baseStrength = 1f;
     [SerializeField] private float _baseSize = 0.2f;
     [SerializeField] private float _baseMaxSpeed = 10f;
+
+    public void RegisterPlayer(Player player)
+    {
+        CurrentPlayer = player;
+    }
+
+    public void UnregisterPlayer()
+    {
+        CurrentPlayer = null;
+    }
 
     protected override void Init()
     {
@@ -51,7 +63,7 @@ public class PlayerData : Singleton<PlayerData>
 
     #endregion
 
-    #region Jump Strenght
+    #region Jump Strength
 
     #endregion
 

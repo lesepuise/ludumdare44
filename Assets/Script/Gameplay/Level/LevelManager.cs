@@ -19,6 +19,16 @@ public class LevelManager : Singleton<LevelManager>
         SpawnPlayer();
     }
 
+    private void Update()
+    {
+        GameLoop();
+    }
+
+    private void GameLoop()
+    {
+        
+    }
+
     private void SpawnPlayer()
     {
         _startingPoint.SpawnPlayer();

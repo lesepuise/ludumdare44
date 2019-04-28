@@ -16,26 +16,49 @@ public class Player : MonoBehaviour
     [SerializeField] private float _cameraDistPerSpeed;
     [SerializeField] private float _cameraDistMinSpeed = 2;
 
+    [SerializeField] private float _cameraDistDebug = 20;
+
+    private bool Spiky => _spikes.gameObject.activeSelf;
+
     private float MaxSpeed => PlayerData.Instance.GetMaxSpeed();
-    private float Strength => PlayerData.Instance.GetStrength();
+    private float Strength => PlayerData.Instance.GetStrength() * (Spiky ? 2f : 1f);
     private float StartSize => PlayerData.Instance.GetSize();
-    private float JumpStrength => 5f;
+    private float JumpStrength => 10f;
 
     private float _currentSize;
 
-    public float CurrentSize
+    public float GetCurrentSize()
     {
-        get { return _currentSize; }
-        set
+        return _currentSize;
+    }
+
+    public void SetCurrentSize(float value)
+    {
+        _currentSize = value;
+        SetScale(_currentSize);
+    }
+
+    public float GetCurrentHeight()
+    {
+        return LevelManager.Instance.GetHeight(transform);
+    }
+
+    private void OnEnable()
+    {
+        PlayerData.Instance.RegisterPlayer(this);
+    }
+
+    private void OnDisable()
+    {
+        if (GameManager.Instance)
         {
-            _currentSize = value;
-            SetScale(_currentSize);
+            PlayerData.Instance.UnregisterPlayer();
         }
     }
 
-    public float CurrentSpeed
+    public float GetCurrentSpeed()
     {
-        get { return _rigidBody.velocity.magnitude; }
+        return _rigidBody.velocity.magnitude;
     }
 
     private void Start()
@@ -49,7 +72,7 @@ public class Player : MonoBehaviour
 
     private void InitBall()
     {
-        CurrentSize = StartSize;
+        SetCurrentSize(StartSize);
 
         transform.position += Vector3.up * StartSize / 2f;
     }
@@ -91,7 +114,7 @@ public class Player : MonoBehaviour
 
     private float GetJumpStrength()
     {
-        return 10f;
+        return JumpStrength;
     }
 
     private void UpdateMovement()
@@ -125,10 +148,15 @@ public class Player : MonoBehaviour
         int layerMask = 1 << Layer.Scenery;
         layerMask += 1 << Layer.Obstacle;
 
-        float minDist = CurrentSize * 0.05f;
+        float minDist = GetCurrentSize() * 0.05f;
+        if (Spiky)
+        {
+            minDist += GetCurrentSize() * 0.05f;
+        }
+
         Vector3 targetPos = transform.position + Vector3.down * minDist;
 
-        if (Physics.CheckSphere(targetPos, CurrentSize, layerMask, QueryTriggerInteraction.Collide))
+        if (Physics.CheckSphere(targetPos, GetCurrentSize(), layerMask, QueryTriggerInteraction.Collide))
         {
             return true;
         }
@@ -177,11 +205,16 @@ public class Player : MonoBehaviour
 
     private float GetTargetDistance()
     {
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            return _cameraDistDebug;
+        }
+
         float dist = _cameraBaseDist;
 
-        dist += CurrentSize * _cameraDistPerSize;
-        dist += Mathf.Max(_cameraDistMinSpeed, CurrentSpeed * _cameraDistPerSpeed);
-
+        dist += GetCurrentSize() * _cameraDistPerSize;
+        dist += Mathf.Max(_cameraDistMinSpeed, GetCurrentSpeed() * _cameraDistPerSpeed);
+        
         return dist;
     }
 
@@ -202,8 +235,17 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            _spikes.gameObject.SetActive(!_spikes.gameObject.activeSelf);
+            _spikes.gameObject.SetActive(!Spiky);
         }
+    }
+
+    #endregion
+
+    #region Size
+
+    public float GetCurrentWeight()
+    {
+        return 1f;
     }
 
     #endregion
