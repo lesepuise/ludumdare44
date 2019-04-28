@@ -7,14 +7,16 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rigidBody;
     [SerializeField] private Transform _ball;
+    [SerializeField] private Transform _spikes;
 
-    [Header("Camera")] [SerializeField] private Camera _camera;
-    [SerializeField] private Transform _cameraPole;
+    [SerializeField] private PlayerCamera _camera;
 
     [SerializeField] private float _cameraBaseDist;
     [SerializeField] private float _cameraDistPerSize;
     [SerializeField] private float _cameraDistPerSpeed;
+    [SerializeField] private float _cameraDistMinSpeed = 2;
 
+    private float MaxSpeed => PlayerData.Instance.GetMaxSpeed();
     private float Strength => PlayerData.Instance.GetStrength();
     private float StartSize => PlayerData.Instance.GetSize();
     private float JumpStrength => 5f;
@@ -41,6 +43,8 @@ public class Player : MonoBehaviour
         PlayerData.Instance.RecalculateAll();
 
         InitBall();
+
+        _spikes.gameObject.SetActive(false);
     }
 
     private void InitBall()
@@ -53,8 +57,10 @@ public class Player : MonoBehaviour
     private void Update()
     {
         UpdateCamera();
-
         UpdateControls();
+        UpdateCheats();
+
+        UpdateVelocity();
     }
 
     #region Controls
@@ -90,6 +96,11 @@ public class Player : MonoBehaviour
 
     private void UpdateMovement()
     {
+        if (!IsGrounded())
+        {
+            return;
+        }
+
         Vector3 movement = Vector3.zero;
 
         if (UpKey) movement += GetForward();
@@ -127,21 +138,41 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    #region Velocity
+
+    private void UpdateVelocity()
+    {
+        Vector3 vel = _rigidBody.velocity;
+        Vector3 velHorizontal = vel;
+        velHorizontal.y = 0f;
+
+        Vector3 velVertical = vel - velHorizontal;
+
+        float speed = velHorizontal.magnitude;
+
+        if (speed >= MaxSpeed)
+        {
+            _rigidBody.velocity = velHorizontal / speed * MaxSpeed + velVertical;
+        }
+    }
+
+    #endregion
+
     #region Camera
 
     private Vector3 GetForward()
     {
-        return _cameraPole.forward;
+        return _camera.GetForward();
     }
 
     private Vector3 GetRight()
     {
-        return _cameraPole.right;
+        return _camera.GetRight();
     }
 
     private void UpdateCamera()
     {
-        _camera.transform.localPosition = Vector3.back * GetTargetDistance();
+        _camera.targetDistance = GetTargetDistance();
     }
 
     private float GetTargetDistance()
@@ -149,7 +180,7 @@ public class Player : MonoBehaviour
         float dist = _cameraBaseDist;
 
         dist += CurrentSize * _cameraDistPerSize;
-        dist += CurrentSpeed * _cameraDistPerSpeed;
+        dist += Mathf.Max(_cameraDistMinSpeed, CurrentSpeed * _cameraDistPerSpeed);
 
         return dist;
     }
@@ -161,6 +192,18 @@ public class Player : MonoBehaviour
     private void SetScale(float newScale)
     {
         _ball.localScale = Vector3.one * newScale;
+    }
+
+    #endregion
+
+    #region Cheats
+
+    private void UpdateCheats()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            _spikes.gameObject.SetActive(!_spikes.gameObject.activeSelf);
+        }
     }
 
     #endregion

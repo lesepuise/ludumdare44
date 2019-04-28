@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseStrength: 2
   _baseSize: 0.2
+  _baseMaxSpeed: 15

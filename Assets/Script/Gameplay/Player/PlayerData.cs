@@ -5,6 +5,7 @@ public class PlayerData : Singleton<PlayerData>
 {
     [SerializeField] private float _baseStrength = 1f;
     [SerializeField] private float _baseSize = 0.2f;
+    [SerializeField] private float _baseMaxSpeed = 10f;
 
     protected override void Init()
     {
@@ -15,6 +16,7 @@ public class PlayerData : Singleton<PlayerData>
     {
         CalculateStrength();
         CalculateSize();
+        CalculateMaxSpeed();
     }
 
     #region Strength
@@ -33,10 +35,24 @@ public class PlayerData : Singleton<PlayerData>
 
     #endregion
 
+    #region Max Speed
+
+    private float _calculatedMaxSpeed;
+
+    public float GetMaxSpeed()
+    {
+        return _calculatedMaxSpeed;
+    }
+
+    private void CalculateMaxSpeed()
+    {
+        _calculatedMaxSpeed = _baseMaxSpeed;
+    }
+
+    #endregion
+
     #region Jump Strenght
 
-
-    
     #endregion
 
     #region Starting Size
