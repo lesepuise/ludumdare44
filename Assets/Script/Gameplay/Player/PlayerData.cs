@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerData : Singleton<PlayerData>
 {
-    private const float LifeFactor = 5000f;
+    public const float LifeFactor = 1000f;
+    public const float SizeLifeFactor = 5f;
 
     [NonSerialized] public Player CurrentPlayer;
 
@@ -172,21 +173,20 @@ public class PlayerData : Singleton<PlayerData>
 
     #region Helper Function
 
-    private const float SphereRatio = Mathf.PI * 1.3333f;
-
     public static float SizeToLife(float size)
     {
-        float life = size * size * size * SphereRatio;
-
+        size *= SizeLifeFactor;
+        float life = size * size;
         return life * LifeFactor;
     }
 
     public static float LifeToSize(float life)
     {
         life /= LifeFactor;
-        life /= SphereRatio;
+        life = Mathf.Sqrt(life);
+        life /= SizeLifeFactor;
 
-        return Mathf.Pow(life, 0.33333f);
+        return life;
     }
 
     #endregion

@@ -221,7 +221,7 @@ public class Player : MonoBehaviour
         if (DownKey) movement += -GetForward();
         if (RightKey) movement += GetRight();
 
-        _rigidBody.AddForce(movement * Strength * strenghtFactor, ForceMode.Force);
+        _rigidBody.AddForce(movement * Strength * strenghtFactor * GetCurrentSize(), ForceMode.Force);
 
         //Set the right tacks to play depending of the speed
         MusicManager.Instance.setPlayerSpeed(GetCurrentSpeed());
@@ -328,7 +328,7 @@ public class Player : MonoBehaviour
 
     public float GetCurrentWeight()
     {
-        return GetCurrentSize() * WeightRatio;
+        return GetLife() * WeightRatio / PlayerData.LifeFactor;
     }
 
     public float UpdateWeight()

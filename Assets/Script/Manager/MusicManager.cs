@@ -15,12 +15,10 @@ public class MusicManager : Singleton<MusicManager>
     private Scenes previousScene;
 
     [SerializeField] private AudioSource _menuMusic;
-
     [SerializeField] private AudioSource _GameMusicSlow;
-
     [SerializeField] private AudioSource _GameMusicMedium;
-
     [SerializeField] private AudioSource _GameMusicFast;
+
     public void SetScene(int sceneId)
     {
         if (Enum.IsDefined(typeof(Scenes), sceneId))

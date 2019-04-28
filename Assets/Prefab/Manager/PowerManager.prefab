@@ -48,17 +48,17 @@ MonoBehaviour:
       powerName: Strenght 1
       cost: 100
       purchased: 0
-      Factor: 1.5
+      Factor: 2
     PassiveStrength2:
       powerName: Strenght 2
       cost: 100
       purchased: 0
-      Factor: 1.5
+      Factor: 2
     PassiveStrength3:
       powerName: Strenght 3
       cost: 100
       purchased: 0
-      Factor: 1.5
+      Factor: 2
     PassiveJumpStrength:
       powerName: Jump Strength 1
       cost: 100
