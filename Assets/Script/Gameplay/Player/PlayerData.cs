@@ -43,6 +43,14 @@ public class PlayerData : Singleton<PlayerData>
     private void CalculateStrength()
     {
         _calculatedStrength = _baseStrength;
+
+#if UNITY_EDITOR && !UNITY_EDITOR_WIN
+        Debug.Log("Not win")
+#endif
+#if UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        Debug.Log("Linux")
+        _calculatedStrength *= 1.2f;
+#endif
     }
 
     #endregion
