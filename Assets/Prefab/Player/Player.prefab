@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 632910965}
   - component: {fileID: 632910964}
   - component: {fileID: 632910963}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1726,7 +1726,7 @@ GameObject:
   - component: {fileID: 5629945363485516373}
   - component: {fileID: 1804873185137618486}
   - component: {fileID: 1782930602}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Camera Pole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1871,7 +1871,7 @@ GameObject:
   - component: {fileID: 6715451114497365770}
   - component: {fileID: 6715451114497365771}
   - component: {fileID: 171440792}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -2044,7 +2044,7 @@ PrefabInstance:
     - target: {fileID: 2976638961036909595, guid: 5e09fae63443a114690ec0cc3fc8fff3,
         type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4819936025737175810, guid: 5e09fae63443a114690ec0cc3fc8fff3,
         type: 3}
