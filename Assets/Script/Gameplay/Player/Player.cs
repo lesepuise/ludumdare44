@@ -113,6 +113,7 @@ public class Player : MonoBehaviour
 
     public bool IsGrounded { get; private set; }
     public bool IsGainingSnow { get; set; }
+    public bool OnIce { get; set; }
 
     private void UpdateGrounded()
     {
@@ -194,10 +195,12 @@ public class Player : MonoBehaviour
 
     private float GetStrengthFactor()
     {
+        if (OnIce) return 0f;
         float factor = 1f;
 
         if (Spiky) factor *= 2f;
         if (!IsGrounded) factor *= 0.5f;
+        
 
         return factor;
     }
