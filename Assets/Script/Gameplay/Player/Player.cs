@@ -70,6 +70,7 @@ public class Player : MonoBehaviour
         InitBall();
 
         _spikes.gameObject.SetActive(false);
+        IsGainingSnow = true;
     }
 
     private void InitBall()
@@ -110,6 +111,7 @@ public class Player : MonoBehaviour
     private float _verticalVel;
 
     public bool IsGrounded { get; private set; }
+    public bool IsGainingSnow { get; set; }
 
     private void UpdateGrounded()
     {
@@ -347,7 +349,15 @@ public class Player : MonoBehaviour
         if (!IsGrounded) return;
         if (Spiky) return;
 
-        float lifeToLoose = _rigidBody.velocity.magnitude * GetCurrentSize() * LifeLossFactor;
+        float lifeToLoose = 0;
+        if (IsGainingSnow)
+        {
+            lifeToLoose = _rigidBody.velocity.magnitude * GetCurrentSize() * -LifeLossFactor;
+        }
+        else
+        {
+            lifeToLoose = _rigidBody.velocity.magnitude * GetCurrentSize() * LifeLossFactor;
+        }
 
         LoseLife(lifeToLoose);
     }
