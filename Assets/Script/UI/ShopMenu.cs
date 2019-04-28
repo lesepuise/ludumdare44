@@ -12,7 +12,9 @@ public class ShopMenu : MonoBehaviour
         if (GameManager.Instance == null)
         {
             GameStarter.StartGameCorrectly();
+            return;
         }
+        MusicManager.Instance.SetScene(1);
     }
 
     public void Button_Start()

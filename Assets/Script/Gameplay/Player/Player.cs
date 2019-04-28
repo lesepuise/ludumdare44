@@ -12,6 +12,12 @@ public class Player : MonoBehaviour
 
     [Header("Camera")] [SerializeField] private PlayerCamera _camera;
 
+    [SerializeField] private AudioSource _landSound;
+
+    [SerializeField] private AudioSource _hitSound;
+
+    [SerializeField] private AudioSource _jumpSound;
+
     [SerializeField] private float _cameraBaseDist;
     [SerializeField] private float _cameraDistPerSize;
     [SerializeField] private float _cameraDistPerSpeed;
@@ -171,6 +177,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            _jumpSound.Play();
             _rigidBody.AddForce(Vector3.up * GetJumpStrength(), ForceMode.VelocityChange);
         }
     }
@@ -207,6 +214,9 @@ public class Player : MonoBehaviour
         if (RightKey) movement += GetRight();
 
         _rigidBody.AddForce(movement * Strength * strenghtFactor, ForceMode.Force);
+
+        //Set the right tacks to play depending of the speed
+        MusicManager.Instance.setPlayerSpeed(GetCurrentSpeed());
     }
 
     #region Keys

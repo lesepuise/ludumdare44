@@ -11,7 +11,9 @@ public class MainMenu : MonoBehaviour
         if (GameManager.Instance == null)
         {
             GameStarter.StartGameCorrectly();
+            return;
         }
+        MusicManager.Instance.SetScene(0);
     }
 
     public void Button_Start()

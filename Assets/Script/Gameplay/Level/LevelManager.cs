@@ -25,7 +25,7 @@ public class LevelManager : Singleton<LevelManager>
             GameStarter.StartGameCorrectly();
             return;
         }
-
+        MusicManager.Instance.SetScene(2);
         SpawnPlayer();
     }
 
