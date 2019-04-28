@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CleverCode;
 using UnityEngine;
 
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour
     private float JumpStrength => 10f;
 
     private float _currentSize;
+    private bool _paused;
 
     public float GetCurrentSize()
     {
@@ -84,12 +86,28 @@ public class Player : MonoBehaviour
         UpdateCheats();
 
         UpdateVelocity();
+        UpdateLastMovements();
+    }
+
+    public void Pause()
+    {
+        _paused = true;
     }
 
     #region Controls
 
+    private bool CanControl()
+    {
+        return !_paused;
+    }
+
     private void UpdateControls()
     {
+        if (!CanControl())
+        {
+            return;
+        }
+
         UpdateJump();
         UpdateMovement();
     }
@@ -246,6 +264,51 @@ public class Player : MonoBehaviour
     public float GetCurrentWeight()
     {
         return 1f;
+    }
+
+    #endregion
+
+    #region Last Movements
+
+    private List<TimedMovement> _lastMovements = new List<TimedMovement>();
+    private bool _startedMoving = false;
+
+    private void UpdateLastMovements()
+    {
+        while (_lastMovements.Sum(movement => movement.time) > 2f)
+        {
+            _lastMovements.RemoveAt(0);
+        }
+
+        _lastMovements.Add(new TimedMovement(Time.deltaTime, _rigidBody.velocity.magnitude));
+
+        if (!_startedMoving && _lastMovements.LastElement().movement > 0.05f)
+        {
+            _startedMoving = true;
+            _lastMovements.Clear();
+        }
+    }
+
+    public bool LastMovementsValid()
+    {
+        return _startedMoving && _lastMovements.Sum(movement => movement.time) > 1f;
+    }
+
+    public float GetLastSecondMovement()
+    {
+        return _lastMovements.Sum(movement => movement.movement);
+    }
+
+    private struct TimedMovement
+    {
+        public float time;
+        public float movement;
+
+        public TimedMovement(float time, float movement)
+        {
+            this.time = time;
+            this.movement = movement;
+        }
     }
 
     #endregion
