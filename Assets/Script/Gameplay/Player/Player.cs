@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private AudioSource _jumpSound;
 
+    [SerializeField] private AudioSource _ambiantSound;
+
     [SerializeField] private float _cameraBaseDist;
     [SerializeField] private float _cameraDistPerSize;
     [SerializeField] private float _cameraDistPerSpeed;
@@ -224,6 +226,7 @@ public class Player : MonoBehaviour
         {
             //TODO : Lose life? nah, you're fine
         }
+        _ambiantSound.volume = 0.3f;
         MusicManager.Instance.UnPause();
     }
 
@@ -262,6 +265,7 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         _jumpSound.Play();
+        _ambiantSound.volume = 0.7f;
         MusicManager.Instance.Pause();
 
         LoseLifePercent(JumpCost / 2.0f);

@@ -10,6 +10,8 @@ public class CannonLauncher : Launcher
 
     public float ShootingStrength;
 
+    [SerializeField] private AudioSource _cannonSound;
+
     public override void Init(Player player)
     {
         base.Init(player);
@@ -38,6 +40,7 @@ public class CannonLauncher : Launcher
 
     private void Shoot()
     {
+        _cannonSound.Play();
         LaunchPlayer(ShootingPoint.forward, ShootingStrength);
     }
 }
