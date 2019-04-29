@@ -156,6 +156,11 @@ public class Player : MonoBehaviour
         RigidBody.isKinematic = false;
     }
 
+    public void Hit()
+    {
+        _hitSound.Play();
+    }
+
     #region Physical State
 
     private float _verticalVel;
