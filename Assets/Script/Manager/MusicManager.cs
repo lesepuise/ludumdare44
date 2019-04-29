@@ -107,4 +107,18 @@ public class MusicManager : Singleton<MusicManager>
             _GameMusicSlow.mute = false;
         }
     }
+
+    public void Pause()
+    {
+        _GameMusicFast.Pause();
+        _GameMusicMedium.Pause();
+        _GameMusicSlow.Pause();
+    }
+
+    public void UnPause()
+    {
+        _GameMusicFast.UnPause();
+        _GameMusicMedium.UnPause();
+        _GameMusicSlow.UnPause();
+    }
 }

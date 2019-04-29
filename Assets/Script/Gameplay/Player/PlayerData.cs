@@ -20,6 +20,7 @@ public class PlayerData : Singleton<PlayerData>
     [SerializeField] private float _baseLifeLossFactor = 1f;
     [SerializeField] private float _baseLifeGainFactor = -2f;
     [SerializeField] private float _baseJumpCost = 0.5f;
+    [SerializeField] private float _hitCost = 0.20f;
 
     public void RegisterPlayer(Player player)
     {
@@ -158,6 +159,11 @@ public class PlayerData : Singleton<PlayerData>
     public float GetJumpCost()
     {
         return _jumpCost;
+    }
+
+    public float GetHitCost()
+    {
+        return _hitCost;
     }
 
     private void CalculateLifeCosts()

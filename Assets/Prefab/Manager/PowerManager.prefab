@@ -45,62 +45,62 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PassivePowers:
     PassiveStrength:
-      powerName: Strenght 1
+      powerName: Strenght +1
       cost: 100
       purchased: 0
       Factor: 2
     PassiveStrength2:
-      powerName: Strenght 2
+      powerName: Strenght +1
       cost: 100
       purchased: 0
       Factor: 2
     PassiveStrength3:
-      powerName: Strenght 3
+      powerName: Strenght +1
       cost: 100
       purchased: 0
       Factor: 2
     PassiveJumpStrength:
-      powerName: Jump Strength 1
+      powerName: Jump Strength +1
       cost: 100
       purchased: 0
       Factor: 1.25
     PassiveJumpStrength2:
-      powerName: Jump Strength 2
+      powerName: Jump Strength +1
       cost: 100
       purchased: 0
       Factor: 1.25
     PassiveJumpStrength3:
-      powerName: Jump Strength 3
+      powerName: Jump Strength +1
       cost: 100
       purchased: 0
       Factor: 1.25
     PassiveStartSize:
-      powerName: Start Size 1
+      powerName: Start Size +1
       cost: 100
       purchased: 0
       Factor: 1.5
     PassiveStartSize2:
-      powerName: Start Size 2
+      powerName: Start Size +1
       cost: 100
       purchased: 0
       Factor: 1.5
     PassiveStartSize3:
-      powerName: Start Size 3
+      powerName: Start Size +1
       cost: 100
       purchased: 0
       Factor: 1.5
     PassiveMaxSpeed:
-      powerName: Max Speed 1
+      powerName: Max Speed +1
       cost: 100
       purchased: 0
       Factor: 1.5
     PassiveMaxSpeed2:
-      powerName: Max Speed 2
+      powerName: Max Speed +1
       cost: 100
       purchased: 0
       Factor: 1.5
     PassiveMaxSpeed3:
-      powerName: Max Speed 3
+      powerName: Max Speed +1
       cost: 100
       purchased: 0
       Factor: 1.5

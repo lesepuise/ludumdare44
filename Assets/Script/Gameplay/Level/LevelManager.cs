@@ -29,6 +29,7 @@ public class LevelManager : Singleton<LevelManager>
             return;
         }
         MusicManager.Instance.SetScene(2);
+        MusicManager.Instance.Pause();
         SpawnPlayer();
     }
 

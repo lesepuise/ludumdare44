@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     private float LifeLossFactor => PlayerData.Instance.GetLifeLossFactor();
     private float LifeGainFactor => PlayerData.Instance.GetLifeGainFactor();
     private float JumpCost => PlayerData.Instance.GetJumpCost();
+    private float HitCost => PlayerData.Instance.GetHitCost();
 
     private float WeightRatio => PlayerData.Instance.GetWeightRatio();
     private float JumpStrength => PlayerData.Instance.GetJumpStrength();
@@ -156,9 +157,26 @@ public class Player : MonoBehaviour
         RigidBody.isKinematic = false;
     }
 
-    public void Hit()
+    public void Hit(float impactStrength)
     {
-        _hitSound.Play();
+        if (impactStrength > 4f) //Hard hit
+        {
+            _hitSound.volume = 0.5f;
+            _hitSound.Play();
+            LoseLifePercent(HitCost);
+        }
+        else if (impactStrength > 1f) //medium hit
+        {
+            _hitSound.volume = 0.25f;
+            _hitSound.Play();
+            LoseLifePercent(HitCost / 2);
+        }
+        else if (impactStrength > 0.5f) //Small hit
+        {
+            _hitSound.volume = 0.15f;
+            _hitSound.Play();
+            LoseLifePercent(HitCost / 3);
+        }
     }
 
     #region Physical State
@@ -169,17 +187,22 @@ public class Player : MonoBehaviour
     public bool IsGainingSnow { get; set; }
     public bool OnIce { get; set; }
 
-    private void UpdateGrounded()
+    private void UpdateGrounded(Collision col)
     {
         bool wasGrounded = IsGrounded;
         float lastVerticalVel = _verticalVel;
 
         IsGrounded = _collisionCount > 0 && _lastContactNormal.y > 0;
         _verticalVel = RigidBody.velocity.y;
+        float _impactStrength = _verticalVel - lastVerticalVel;
 
         if (!wasGrounded && IsGrounded)
         {
-            OnHitTheGround(_verticalVel - lastVerticalVel);
+            OnHitTheGround(_impactStrength);
+        }
+        if (CollidedWithObstacle(col))
+        {
+            Hit(_impactStrength);
         }
     }
 
@@ -188,17 +211,20 @@ public class Player : MonoBehaviour
         if (impactStrength > 9f) //big impact
         {
             //TODO : Lose life, big time
+            LoseLifePercent(JumpCost / 2.0f);
             _landSound.Play();
         }
         else if (impactStrength > 4f) //medium Impact
         {
             //TODO : Lose life, just a bit
+            LoseLifePercent(JumpCost / 4.0f);
             _landSound.Play();
         }
         else if (impactStrength > 1f) //Small Impact
         {
             //TODO : Lose life? nah, you're fine
         }
+        MusicManager.Instance.UnPause();
     }
 
     private void UpdatePhysicState()
@@ -236,8 +262,9 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         _jumpSound.Play();
+        MusicManager.Instance.Pause();
 
-        LoseLifePercent(JumpCost);
+        LoseLifePercent(JumpCost / 2.0f);
 
         RigidBody.AddForce(_lastContactNormal * GetJumpStrength(), ForceMode.VelocityChange);
     }
@@ -560,9 +587,19 @@ public class Player : MonoBehaviour
         _lastContactNormal = normals / col.contactCount;
     }
 
+    private bool CollidedWithScencery(Collision col)
+    {
+        return col.gameObject.layer == Layer.Scenery;
+    }
+
+    private bool CollidedWithObstacle(Collision col)
+    {
+        return col.gameObject.layer == Layer.Obstacle;
+    }
+
     private bool IsCollisionValid(Collision col)
     {
-        bool layer = col.gameObject.layer == Layer.Scenery || col.gameObject.layer == Layer.Obstacle;
+        bool layer = CollidedWithScencery(col) || CollidedWithObstacle(col);
 
         return layer;
     }
@@ -574,8 +611,7 @@ public class Player : MonoBehaviour
             CalculateCollisionNormal(col);
             _collisionCount++;
         }
-
-        UpdateGrounded();
+        UpdateGrounded(col);
     }
 
     private void OnCollisionStay(Collision col)
@@ -594,7 +630,7 @@ public class Player : MonoBehaviour
             _collisionCount = Mathf.Max(0, _collisionCount);
         }
 
-        UpdateGrounded();
+        UpdateGrounded(col);
     }
 
     #endregion

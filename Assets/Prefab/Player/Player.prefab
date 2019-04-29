@@ -237,7 +237,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 27333970198210c8f9cd49d7d64e1210, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -621,11 +621,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerMesh
       objectReference: {fileID: 0}
-    - target: {fileID: 2976638961036909595, guid: 5e09fae63443a114690ec0cc3fc8fff3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 4819936025737175810, guid: 5e09fae63443a114690ec0cc3fc8fff3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -681,21 +676,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1543474913, guid: 5e09fae63443a114690ec0cc3fc8fff3, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e09fae63443a114690ec0cc3fc8fff3, type: 3}
---- !u!4 &2292835177788578930 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4819936025737175810, guid: 5e09fae63443a114690ec0cc3fc8fff3,
-    type: 3}
-  m_PrefabInstance: {fileID: 6715451112762621808}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6715451114214928785 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1543474913, guid: 5e09fae63443a114690ec0cc3fc8fff3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6715451112762621808}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2292835177788578930 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4819936025737175810, guid: 5e09fae63443a114690ec0cc3fc8fff3,
     type: 3}
   m_PrefabInstance: {fileID: 6715451112762621808}
   m_PrefabAsset: {fileID: 0}
