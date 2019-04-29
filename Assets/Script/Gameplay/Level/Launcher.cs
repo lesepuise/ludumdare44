@@ -4,6 +4,7 @@ public abstract class Launcher : MonoBehaviour
 {
     public Transform PlayerPosition;
     public bool Active;
+    public ItemState State = ItemState.Unavailable;
 
     public virtual void Init(Player player)
     {
