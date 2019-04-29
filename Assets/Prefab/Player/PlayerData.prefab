@@ -43,6 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8200a39c7ff54f4d96f46a7877b2ba49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  snowPatchPrefab: {fileID: 7442568586893674886, guid: 3853c44bc93536640b94d81a121c9733,
+    type: 3}
   _baseStrength: 25
   _baseJumpStrength: 10
   _baseSize: 0.3

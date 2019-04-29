@@ -16,7 +16,7 @@ TagManager:
   - Ball
   - Obstacle
   - Scenery
-  - InnerBall
+  - OuterBall
   - Launcher
   - 
   - 

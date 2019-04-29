@@ -9,6 +9,8 @@ public class PlayerData : Singleton<PlayerData>
 
     [NonSerialized] public Player CurrentPlayer;
 
+    public GameObject snowPatchPrefab;
+
     [SerializeField] private float _baseStrength = 1f;
     [SerializeField] private float _baseJumpStrength = 10f;
 

@@ -443,6 +443,22 @@ public class Player : MonoBehaviour
 
     private void OnLifeLoss(float lostLife)
     {
+        if (!IsGrounded)
+        {
+            return;
+        }
+
+        float size = Mathf.Sqrt(Mathf.Sqrt(lostLife / 10f));
+
+        if (size < 1)
+        {
+            size = size * size;
+        }
+
+        GameObject patch = Instantiate(PlayerData.Instance.snowPatchPrefab, GetFloorPos(), GetFloorRot());
+        patch.transform.localScale = Vector3.one * size;
+
+        Destroy(patch, 5f);
     }
 
     private void SetLife(float newLife)
@@ -520,6 +536,16 @@ public class Player : MonoBehaviour
     private void OnRemoveSpikes()
     {
         _collisionCount = 0;
+    }
+
+    private Vector3 GetFloorPos()
+    {
+        return transform.position - _lastContactNormal * GetCurrentSize() / 2f;
+    }
+
+    private Quaternion GetFloorRot()
+    {
+        return Quaternion.LookRotation(_lastContactNormal);
     }
 
     private void CalculateCollisionNormal(Collision col)
