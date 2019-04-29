@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using CleverCode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    [SerializeField] private StartingPoint _startingPoint;
+    [FormerlySerializedAs("_startingPoint")] [SerializeField] private StartingPlatform _startingPlatform;
     [SerializeField] private Transform _targetPoint;
 
     public bool GameInProgress => !won && !lost;
@@ -91,7 +92,7 @@ public class LevelManager : Singleton<LevelManager>
 
     private void SpawnPlayer()
     {
-        _startingPoint.SpawnPlayer();
+        _startingPlatform.SpawnPlayer();
     }
 
     #region Height Management

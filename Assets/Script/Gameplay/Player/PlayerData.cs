@@ -123,7 +123,7 @@ public class PlayerData : Singleton<PlayerData>
 
     private float _calculatedSize;
 
-    public float GetSize()
+    public float GetStartSize()
     {
         return _calculatedSize;
     }

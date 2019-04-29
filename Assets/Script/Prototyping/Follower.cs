@@ -40,7 +40,7 @@ namespace CleverCode
             }
         }
 
-        private void Init()
+        public void Init()
         {
             if (_Initialised) return;
             _Initialised = true;

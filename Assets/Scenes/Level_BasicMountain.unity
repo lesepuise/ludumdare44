@@ -1192,7 +1192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a0fb695b26a59d4295257983144b712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingPoint: {fileID: 1633861801}
+  _startingPlatform: {fileID: 1633861801}
   _targetPoint: {fileID: 1291761519}
 --- !u!4 &1291761519 stripped
 Transform:
@@ -1909,7 +1909,7 @@ PrefabInstance:
     - target: {fileID: 936170463442444538, guid: b13a74336f2a08b4ba09eb64aeabcd74,
         type: 3}
       propertyPath: m_Name
-      value: Starting Point
+      value: Starting Platform
       objectReference: {fileID: 0}
     - target: {fileID: 936170463442444536, guid: b13a74336f2a08b4ba09eb64aeabcd74,
         type: 3}

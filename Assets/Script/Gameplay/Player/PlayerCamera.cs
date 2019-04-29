@@ -57,4 +57,9 @@ public class PlayerCamera : MonoBehaviour
     {
         return _pivot.right;
     }
+
+    public void Init()
+    {
+        GetComponent<Follower>().Init();
+    }
 }

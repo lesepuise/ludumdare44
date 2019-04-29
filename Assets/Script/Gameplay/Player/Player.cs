@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using CleverCode;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour
 {
-    [Header("Parts")] [SerializeField] private Rigidbody _rigidBody;
-    [SerializeField] private Transform _ball;
+    [Header("Parts")] [SerializeField] private Transform _ball;
     [SerializeField] private Transform _spikes;
+    [FormerlySerializedAs("_rigidBody")] public Rigidbody RigidBody;
 
     [Header("Camera")] [SerializeField] private PlayerCamera _camera;
     [SerializeField] private AudioSource _landSound;
@@ -28,7 +29,7 @@ public class Player : MonoBehaviour
 
     private float MaxSpeed => PlayerData.Instance.GetMaxSpeed(GetCurrentSize());
     private float Strength => PlayerData.Instance.GetStrength();
-    private float StartSize => PlayerData.Instance.GetSize();
+    private float StartSize => PlayerData.Instance.GetStartSize();
     private float LifeLossFactor => PlayerData.Instance.GetLifeLossFactor();
     private float LifeGainFactor => PlayerData.Instance.GetLifeGainFactor();
     private float JumpCost => PlayerData.Instance.GetJumpCost();
@@ -61,7 +62,7 @@ public class Player : MonoBehaviour
 
     public float GetCurrentSpeed()
     {
-        return _rigidBody.velocity.magnitude;
+        return RigidBody.velocity.magnitude;
     }
 
     private void Start()
@@ -78,7 +79,6 @@ public class Player : MonoBehaviour
         SetLifeFromSize(StartSize);
 
         IsGainingSnow = false;
-        transform.position += Vector3.up * StartSize / 2f;
     }
 
     private void Update()
@@ -102,9 +102,29 @@ public class Player : MonoBehaviour
         UpdateLifeOnMoving();
     }
 
+    public void InitCamera()
+    {
+        _camera.Init();
+    }
+
     public void Pause()
     {
         _paused = true;
+    }
+
+    public void Unpause()
+    {
+        _paused = false;
+    }
+
+    public void PausePhysic()
+    {
+        RigidBody.isKinematic = true;
+    }
+
+    public void UnpausePhysic()
+    {
+        RigidBody.isKinematic = false;
     }
 
     #region Physical State
@@ -121,7 +141,7 @@ public class Player : MonoBehaviour
         float lastVerticalVel = _verticalVel;
 
         IsGrounded = _collisionCount > 0 && _lastContactNormal.y > 0;
-        _verticalVel = _rigidBody.velocity.y;
+        _verticalVel = RigidBody.velocity.y;
 
         if (!wasGrounded && IsGrounded)
         {
@@ -149,7 +169,7 @@ public class Player : MonoBehaviour
 
     private void UpdatePhysicState()
     {
-        _verticalVel = _rigidBody.velocity.y;
+        _verticalVel = RigidBody.velocity.y;
     }
 
     #endregion
@@ -185,7 +205,7 @@ public class Player : MonoBehaviour
 
         LoseLifePercent(JumpCost);
 
-        _rigidBody.AddForce(_lastContactNormal * GetJumpStrength(), ForceMode.VelocityChange);
+        RigidBody.AddForce(_lastContactNormal * GetJumpStrength(), ForceMode.VelocityChange);
     }
 
     private float GetJumpStrength()
@@ -200,7 +220,7 @@ public class Player : MonoBehaviour
 
         if (Spiky) factor *= 2f;
         if (!IsGrounded) factor *= 0.5f;
-        
+
 
         return factor;
     }
@@ -216,12 +236,25 @@ public class Player : MonoBehaviour
 
         Vector3 movement = Vector3.zero;
 
-        if (UpKey) movement += GetForward();
         if (LeftKey) movement += -GetRight();
-        if (DownKey) movement += -GetForward();
         if (RightKey) movement += GetRight();
 
-        _rigidBody.AddForce(movement * Strength * strenghtFactor * GetCurrentSize(), ForceMode.Force);
+        if (UpKey)
+        {
+            float ratio = Mathf.Max(0, 1 - GetCurrentSpeed() / MaxSpeed);
+
+            movement += GetForward() * ratio;
+        }
+
+        if (DownKey)
+        {
+            float ratio = GetCurrentSpeed() / MaxSpeed;
+            ratio *= Mathf.Max(0, Vector3.Dot(GetForward(), RigidBody.velocity.normalized));
+
+            movement += -GetForward() * ratio;
+        }
+
+        RigidBody.AddForce(movement * Strength * strenghtFactor * GetCurrentSize(), ForceMode.Force);
 
         //Set the right tacks to play depending of the speed
         MusicManager.Instance.setPlayerSpeed(GetCurrentSpeed());
@@ -244,10 +277,10 @@ public class Player : MonoBehaviour
     {
         if (_currentSize < 0.025f) //fallback
         {
-            _rigidBody.velocity = Vector3.zero;
+            RigidBody.velocity = Vector3.zero;
         }
 
-        Vector3 vel = _rigidBody.velocity;
+        Vector3 vel = RigidBody.velocity;
         Vector3 velHorizontal = vel;
         velHorizontal.y = 0f;
 
@@ -257,7 +290,7 @@ public class Player : MonoBehaviour
 
         if (speed >= MaxSpeed)
         {
-            _rigidBody.velocity = velHorizontal / speed * MaxSpeed + velVertical;
+            RigidBody.velocity = velHorizontal / speed * MaxSpeed + velVertical;
         }
     }
 
@@ -333,7 +366,7 @@ public class Player : MonoBehaviour
 
     public float UpdateWeight()
     {
-        return _rigidBody.mass = GetCurrentWeight();
+        return RigidBody.mass = GetCurrentWeight();
     }
 
     #endregion
@@ -356,11 +389,11 @@ public class Player : MonoBehaviour
         float lifeToLoose = 0;
         if (IsGainingSnow)
         {
-            lifeToLoose = _rigidBody.velocity.magnitude * GetCurrentSize() * LifeGainFactor;
+            lifeToLoose = RigidBody.velocity.magnitude * GetCurrentSize() * LifeGainFactor;
         }
         else
         {
-            lifeToLoose = _rigidBody.velocity.magnitude * GetCurrentSize() * LifeLossFactor;
+            lifeToLoose = RigidBody.velocity.magnitude * GetCurrentSize() * LifeLossFactor;
         }
 
         LoseLife(lifeToLoose);
@@ -414,7 +447,7 @@ public class Player : MonoBehaviour
             _lastMovements.RemoveAt(0);
         }
 
-        _lastMovements.Add(new TimedMovement(Time.deltaTime, _rigidBody.velocity.magnitude));
+        _lastMovements.Add(new TimedMovement(Time.deltaTime, RigidBody.velocity.magnitude));
 
         if (!_startedMoving && _lastMovements.LastElement().movement > 0.05f)
         {
