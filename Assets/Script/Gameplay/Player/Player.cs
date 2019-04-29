@@ -60,6 +60,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void SetPosition(Transform target, bool floorInsteadOfMiddle)
+    {
+        transform.position = target.position;
+        transform.rotation = target.rotation;
+
+        if (floorInsteadOfMiddle)
+        {
+            transform.position += transform.up * GetCurrentSize() / 2f;
+        }
+    }
+
     public float GetCurrentSpeed()
     {
         return RigidBody.velocity.magnitude;
