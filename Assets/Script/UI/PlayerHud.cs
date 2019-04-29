@@ -30,7 +30,7 @@ public class PlayerHud : Singleton<PlayerHud>
 
         SpawnStat("Life", player.GetLife);
 
-        SpawnStat("Speed", player.GetCurrentSpeed);
+        SpawnStat("Speed", player.GetHorizontalSpeed);
         SpawnStat("Height", player.GetCurrentHeight);
 
         SpawnStat("Size", player.GetCurrentSize);
@@ -82,7 +82,11 @@ public class PlayerHud : Singleton<PlayerHud>
         _endingWon.SetActive(won);
         _endingLost.SetActive(!won);
 
-        StartCoroutine(ShowPoints(LevelManager.Instance.CalculatePoints()));
+        int points = LevelManager.Instance.CalculatePoints();
+
+        GameManager.Instance.metaSnow += points;
+
+        StartCoroutine(ShowPoints(points));
     }
 
     private IEnumerator ShowPoints(int points)

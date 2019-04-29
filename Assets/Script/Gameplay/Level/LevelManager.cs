@@ -8,6 +8,8 @@ using UnityEngine.Serialization;
 
 public class LevelManager : Singleton<LevelManager>
 {
+    public LevelData levelData;
+
     [FormerlySerializedAs("_startingPoint")] [SerializeField] private StartingPlatform _startingPlatform;
     [SerializeField] private Transform _targetPoint;
 
@@ -116,7 +118,7 @@ public class LevelManager : Singleton<LevelManager>
 
     public int CalculatePoints()
     {
-        return 999;
+        return (int)(PlayerData.Instance.CurrentPlayer.GetLife() * levelData.RewardFactor + levelData.Reward);
     }
 
     public void QuitLevel()

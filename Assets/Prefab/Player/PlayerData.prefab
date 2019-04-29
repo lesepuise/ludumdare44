@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8200a39c7ff54f4d96f46a7877b2ba49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseStrength: 15
+  _baseStrength: 25
   _baseJumpStrength: 10
   _baseSize: 0.3
   _baseMaxSpeed: 30

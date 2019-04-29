@@ -8,4 +8,6 @@ public class GameManager : Singleton<GameManager>
     public float maxMovementForDeath = 0.4f;
 
     public int chosenLauncherIndex = 1;
+
+    public int metaSnow;
 }

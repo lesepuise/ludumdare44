@@ -65,6 +65,24 @@ public class Player : MonoBehaviour
         return RigidBody.velocity.magnitude;
     }
 
+    public float GetHorizontalSpeed()
+    {
+        Vector3 horizontalVel = RigidBody.velocity;
+        horizontalVel.y = 0f;
+
+        return horizontalVel.magnitude;
+    }
+
+    public float GetForwardSpeed()
+    {
+        Vector3 horizontalVel = RigidBody.velocity;
+        horizontalVel.y = 0f;
+
+        float forwardFactor = Mathf.Max(0, Vector3.Dot(horizontalVel.normalized, GetForward()));
+
+        return horizontalVel.magnitude * forwardFactor;
+    }
+
     private void Start()
     {
         PlayerData.Instance.RecalculateAll();
@@ -221,7 +239,6 @@ public class Player : MonoBehaviour
         if (Spiky) factor *= 2f;
         if (!IsGrounded) factor *= 0.5f;
 
-
         return factor;
     }
 
@@ -241,15 +258,14 @@ public class Player : MonoBehaviour
 
         if (UpKey)
         {
-            float ratio = Mathf.Max(0, 1 - GetCurrentSpeed() / MaxSpeed);
+            float ratio = Mathf.Max(0, 1 - GetForwardSpeed() / MaxSpeed);
 
             movement += GetForward() * ratio;
         }
 
         if (DownKey)
         {
-            float ratio = GetCurrentSpeed() / MaxSpeed;
-            ratio *= Mathf.Max(0, Vector3.Dot(GetForward(), RigidBody.velocity.normalized));
+            float ratio = CurveType.FakeSqrt.Get(GetForwardSpeed() / MaxSpeed);
 
             movement += -GetForward() * ratio;
         }
@@ -257,7 +273,7 @@ public class Player : MonoBehaviour
         RigidBody.AddForce(movement * Strength * strenghtFactor * GetCurrentSize(), ForceMode.Force);
 
         //Set the right tacks to play depending of the speed
-        MusicManager.Instance.setPlayerSpeed(GetCurrentSpeed());
+        MusicManager.Instance.setPlayerSpeed(GetHorizontalSpeed());
     }
 
     #region Keys

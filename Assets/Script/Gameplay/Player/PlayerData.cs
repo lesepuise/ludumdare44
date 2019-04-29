@@ -1,5 +1,5 @@
-﻿using System;
-using CleverCode;
+﻿using CleverCode;
+using System;
 using UnityEngine;
 
 public class PlayerData : Singleton<PlayerData>
