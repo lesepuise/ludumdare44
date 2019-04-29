@@ -1398,6 +1398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a0fb695b26a59d4295257983144b712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelData: {fileID: 11400000, guid: 1c0461ef4c35bb84193741826ebf4ba7, type: 2}
   _startingPlatform: {fileID: 1633861801}
   _targetPoint: {fileID: 1291761519}
 --- !u!4 &1291761519 stripped
@@ -2498,6 +2499,10 @@ PrefabInstance:
     - target: {fileID: 6715451113785031352, guid: f420cc7464d925048a2578c6f1abd225,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 550045944, guid: f420cc7464d925048a2578c6f1abd225, type: 3}
+      propertyPath: m_Drag
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
