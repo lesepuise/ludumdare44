@@ -48,7 +48,7 @@ MonoBehaviour:
   _baseStrength: 25
   _baseJumpStrength: 20
   _baseSize: 0.3
-  _baseMaxSpeed: 15
+  _baseMaxSpeed: 25
   _baseLifeLossFactor: 0.25
   _baseLifeGainFactor: -2
   _baseJumpCost: 0.33

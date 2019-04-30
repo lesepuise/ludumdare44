@@ -1,8 +1,5 @@
-﻿
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using CleverCode;
 
 public class RampSpot : MonoBehaviour
 {
