@@ -513,7 +513,7 @@ public class Player : MonoBehaviour
 
     public void SetLife(float newLife)
     {
-        newLife = Mathf.Max(0, newLife);
+        newLife = Mathf.Max(1, newLife);
 
         float lastLife = _life;
         _life = newLife;
