@@ -511,7 +511,7 @@ public class Player : MonoBehaviour
         Destroy(patch, 5f);
     }
 
-    private void SetLife(float newLife)
+    public void SetLife(float newLife)
     {
         newLife = Mathf.Max(0, newLife);
 

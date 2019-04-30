@@ -107,11 +107,15 @@ public class PlayerHud : Singleton<PlayerHud>
             shownPoints = Math.Min(shownPoints, points);
 
             SetPoints(shownPoints);
+
+            PlayerData.Instance.CurrentPlayer.SetLife((int)(points - shownPoints));
         }
     }
 
     private void SetPoints(float points)
     {
+
+
         _points.text = points.ToString("F0").PadLeft(6, '0');
     }
 

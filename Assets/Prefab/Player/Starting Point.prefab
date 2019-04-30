@@ -1143,49 +1143,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1761468972, guid: 69c6ab5c90b70c7488d53230fb1df4d6, type: 3}
-      propertyPath: rotationTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1761468972, guid: 69c6ab5c90b70c7488d53230fb1df4d6, type: 3}
-      propertyPath: rotationFactor
-      value: -1080
-      objectReference: {fileID: 0}
-    - target: {fileID: 5230330120203270393, guid: 69c6ab5c90b70c7488d53230fb1df4d6,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.6828811
-      objectReference: {fileID: 0}
-    - target: {fileID: 5230330120203270393, guid: 69c6ab5c90b70c7488d53230fb1df4d6,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.18252112
-      objectReference: {fileID: 0}
-    - target: {fileID: 5230330120203270393, guid: 69c6ab5c90b70c7488d53230fb1df4d6,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.68314403
-      objectReference: {fileID: 0}
-    - target: {fileID: 5230330120203270393, guid: 69c6ab5c90b70c7488d53230fb1df4d6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.18350418
-      objectReference: {fileID: 0}
-    - target: {fileID: 5230330120203270393, guid: 69c6ab5c90b70c7488d53230fb1df4d6,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -30.000002
-      objectReference: {fileID: 0}
-    - target: {fileID: 5230330120203270393, guid: 69c6ab5c90b70c7488d53230fb1df4d6,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -89.952
-      objectReference: {fileID: 0}
-    - target: {fileID: 5230330120203270393, guid: 69c6ab5c90b70c7488d53230fb1df4d6,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 179.90501
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69c6ab5c90b70c7488d53230fb1df4d6, type: 3}
 --- !u!4 &4292210878611141892 stripped
