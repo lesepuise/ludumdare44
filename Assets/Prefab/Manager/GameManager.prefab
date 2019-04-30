@@ -43,7 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acdec4b0df504689b09acaec6c5ebd20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chosenVariant: 0
   playerPrefab: {fileID: 6715451113785031351, guid: f420cc7464d925048a2578c6f1abd225,
     type: 3}
   maxMovementForDeath: 0.4
-  chosenLauncherIndex: 1
+  chosenLauncherIndex: 0
+  metaSnow: 0
