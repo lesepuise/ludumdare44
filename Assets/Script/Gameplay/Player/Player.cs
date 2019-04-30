@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 {
     [Header("Parts")] [SerializeField] private Transform _ball;
     [SerializeField] private Transform _spikes;
+    [SerializeField] private Follower _powers;
     [FormerlySerializedAs("_rigidBody")] public Rigidbody RigidBody;
 
     [Header("Camera")] [SerializeField] private PlayerCamera _camera;
@@ -26,6 +27,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float _cameraDistMinSpeed = 2;
 
     [SerializeField] private float _cameraDistDebug = 20;
+
+    [SerializeField] private GameObject _parasol;
+    [SerializeField] private GameObject _fan;
+    [SerializeField] private GameObject _fridge;
 
     private bool Spiky => _spikes.gameObject.activeSelf;
 
@@ -102,6 +107,7 @@ public class Player : MonoBehaviour
         PlayerData.Instance.RecalculateAll();
 
         InitBall();
+        InitPowers();
 
         _spikes.gameObject.SetActive(false);
     }
@@ -136,6 +142,7 @@ public class Player : MonoBehaviour
 
     public void InitCamera()
     {
+        _powers.Init();
         _camera.Init();
     }
 
@@ -393,6 +400,17 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    #region Powers
+
+    private void InitPowers()
+    {
+        _parasol.SetActive(PowerupManager.Instance.PassivePowers.PassiveParasol.purchased);
+        _fan.SetActive(PowerupManager.Instance.PassivePowers.PassiveFan.purchased);
+        _fridge.SetActive(PowerupManager.Instance.PassivePowers.PassiveFridge.purchased);
+    }
+
+    #endregion
+
     #region Size
 
     public void RecalculateSize()
@@ -416,6 +434,7 @@ public class Player : MonoBehaviour
     private void SetScale(float newScale)
     {
         _ball.localScale = Vector3.one * newScale;
+        _powers.transform.localScale = Vector3.one * newScale;
     }
 
     #endregion

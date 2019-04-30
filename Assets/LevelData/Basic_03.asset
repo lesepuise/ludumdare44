@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b869a7221f614753927ef55884a45f26, type: 3}
-  m_Name: Basic_01
+  m_Name: Basic_03
   m_EditorClassIdentifier: 
   LevelName: Level_BasicMountain
-  LevelVariant: 0
-  Cost: 0
-  Reward: 0
-  RewardFactor: 0.5
-  TotalHeight: 250
+  LevelVariant: 2
+  Cost: 10000
+  Reward: 1000000
+  RewardFactor: 20
+  TotalHeight: 666

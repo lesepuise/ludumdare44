@@ -8,10 +8,23 @@ using UnityEngine.Serialization;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    public LevelData levelData;
+    public LevelData levelDataVar_01;
+    public LevelData levelDataVar_02;
+    public LevelData levelDataVar_03;
 
-    [FormerlySerializedAs("_startingPoint")] [SerializeField] private StartingPlatform _startingPlatform;
-    [SerializeField] private Transform _targetPoint;
+    [FormerlySerializedAs("_startingPoint")]
+    [SerializeField] private StartingPlatform _startingPlatform;
+    public Transform TargetPoint { get {
+        switch (GameManager.Instance.chosenVariant)
+        {
+                default: return _targetPoint1;
+                case 1: return _targetPoint2;
+                case 2: return _targetPoint3;
+        }
+    } }
+    [SerializeField] private Transform _targetPoint1;
+    [SerializeField] private Transform _targetPoint2;
+    [SerializeField] private Transform _targetPoint3;
 
     public bool GameInProgress => !won && !lost;
 
@@ -102,24 +115,37 @@ public class LevelManager : Singleton<LevelManager>
 
     public float GetHeight(Transform target)
     {
-        return target.transform.position.y - _targetPoint.position.y;
+        return target.transform.position.y - TargetPoint.position.y;
     }
 
     public float GetHeight(Vector3 target)
     {
-        return target.y - _targetPoint.position.y;
+        return target.y - TargetPoint.position.y;
     }
 
     public float GetHeight(float y)
     {
-        return y - _targetPoint.position.y;
+        return y - TargetPoint.position.y;
     }
 
     #endregion
 
     public int CalculatePoints()
     {
+        LevelData levelData = GetVariant();
+
         return (int)(PlayerData.Instance.CurrentPlayer.GetLife() * levelData.RewardFactor + levelData.Reward);
+    }
+
+    public LevelData GetVariant()
+    {
+        switch (GameManager.Instance.chosenVariant)
+        {
+            case 0: return levelDataVar_01;
+            case 1: return levelDataVar_02;
+            case 2: return levelDataVar_03;
+            default: return levelDataVar_01;
+        }
     }
 
     public void QuitLevel()

@@ -21,6 +21,14 @@ public class PassivePowerList : PowerList
     public PassiveMaxSpeed PassiveMaxSpeed2;
     public PassiveMaxSpeed PassiveMaxSpeed3;
 
+    public PassiveJumpCost PassiveJumpCost;
+    public PassiveJumpCost PassiveJumpCost2;
+    public PassiveJumpCost PassiveJumpCost3;
+
+    public PassiveSnowLoss PassiveParasol;
+    public PassiveSnowLoss PassiveFan;
+    public PassiveSnowLoss PassiveFridge;
+
     public override List<Power> GetPowers()
     {
         return GetPassivePowers().ConvertAll(power => power as Power);
@@ -33,15 +41,26 @@ public class PassivePowerList : PowerList
             PassiveStrength,
             PassiveStrength2,
             PassiveStrength3,
+
             PassiveJumpStrength,
             PassiveJumpStrength2,
             PassiveJumpStrength3,
+
             PassiveStartSize,
             PassiveStartSize2,
             PassiveStartSize3,
+
             PassiveMaxSpeed,
             PassiveMaxSpeed2,
             PassiveMaxSpeed3,
+
+            PassiveJumpCost,
+            PassiveJumpCost2,
+            PassiveJumpCost3,
+
+            PassiveParasol,
+            PassiveFan,
+            PassiveFridge,
         };
     }
 }
@@ -124,6 +143,30 @@ public class PassiveMaxSpeed : PassivePower
     public float Factor = 1.5f;
 
     public override void AffectMaxSpeed(ref float value)
+    {
+        if (!purchased) return;
+        value *= Factor;
+    }
+}
+
+[Serializable]
+public class PassiveJumpCost : PassivePower
+{
+    public float Factor = 0.66f;
+
+    public override void AffectJumpCost(ref float value)
+    {
+        if (!purchased) return;
+        value *= Factor;
+    }
+}
+
+[Serializable]
+public class PassiveSnowLoss : PassivePower
+{
+    public float Factor = 0.66f;
+
+    public override void AffectLifeLossFactor(ref float value)
     {
         if (!purchased) return;
         value *= Factor;

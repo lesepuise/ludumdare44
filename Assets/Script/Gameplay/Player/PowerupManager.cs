@@ -20,6 +20,6 @@ public class Power
 {
     public string powerName = "Unnamed Power";
 
-    public int cost = 100;
+    public int cost = 1000;
     public bool purchased = false;
 }

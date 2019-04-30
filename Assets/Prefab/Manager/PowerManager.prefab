@@ -46,64 +46,94 @@ MonoBehaviour:
   PassivePowers:
     PassiveStrength:
       powerName: Strenght +1
-      cost: 100
+      cost: 1000
       purchased: 0
       Factor: 2
     PassiveStrength2:
       powerName: Strenght +1
-      cost: 100
+      cost: 5000
       purchased: 0
       Factor: 2
     PassiveStrength3:
       powerName: Strenght +1
-      cost: 100
+      cost: 25000
       purchased: 0
       Factor: 2
     PassiveJumpStrength:
       powerName: Jump Strength +1
-      cost: 100
+      cost: 1000
       purchased: 0
       Factor: 1.25
     PassiveJumpStrength2:
       powerName: Jump Strength +1
-      cost: 100
+      cost: 5000
       purchased: 0
       Factor: 1.25
     PassiveJumpStrength3:
       powerName: Jump Strength +1
-      cost: 100
+      cost: 25000
       purchased: 0
       Factor: 1.25
     PassiveStartSize:
       powerName: Start Size +1
-      cost: 100
+      cost: 1000
       purchased: 0
       Factor: 1.5
     PassiveStartSize2:
       powerName: Start Size +1
-      cost: 100
+      cost: 5000
       purchased: 0
       Factor: 1.5
     PassiveStartSize3:
       powerName: Start Size +1
-      cost: 100
+      cost: 25000
       purchased: 0
       Factor: 1.5
     PassiveMaxSpeed:
       powerName: Max Speed +1
-      cost: 100
+      cost: 1000
       purchased: 0
-      Factor: 1.5
+      Factor: 2
     PassiveMaxSpeed2:
       powerName: Max Speed +1
-      cost: 100
+      cost: 5000
       purchased: 0
-      Factor: 1.5
+      Factor: 2
     PassiveMaxSpeed3:
       powerName: Max Speed +1
-      cost: 100
+      cost: 25000
       purchased: 0
-      Factor: 1.5
+      Factor: 2
+    PassiveJumpCost:
+      powerName: Cheaper Jump 1
+      cost: 1000
+      purchased: 0
+      Factor: 0.66
+    PassiveJumpCost2:
+      powerName: Cheaper Jump 2
+      cost: 5000
+      purchased: 0
+      Factor: 0.66
+    PassiveJumpCost3:
+      powerName: Cheaper Jump 3
+      cost: 25000
+      purchased: 0
+      Factor: 0.66
+    PassiveParasol:
+      powerName: Lose Less Snow 1
+      cost: 1000
+      purchased: 0
+      Factor: 0.66
+    PassiveFan:
+      powerName: Lose Less Snow 2
+      cost: 5000
+      purchased: 0
+      Factor: 0.66
+    PassiveFridge:
+      powerName: Lose Less Snow 3
+      cost: 25000
+      purchased: 0
+      Factor: 0.66
   ActivePowers:
     IceBomb:
       powerName: Unnamed Power
