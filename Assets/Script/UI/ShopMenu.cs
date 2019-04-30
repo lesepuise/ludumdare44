@@ -1,4 +1,5 @@
 ﻿using CleverCode;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,6 +10,10 @@ public class ShopMenu : MonoBehaviour
     private const string LEVEL_02_NAME = "Level_Volcano";
 
     [SerializeField] private ShopItem _passiveItemTemplate;
+    [SerializeField] private ChoiceItem _launcherItemTemplate;
+
+    [SerializeField] private GameObject[] _launchers;
+    private List<ChoiceItem> _launcherItems = new List<ChoiceItem>();
 
     [SerializeField] private Button[] _tabButtons;
     [SerializeField] private GameObject[] _tabs;
@@ -28,13 +33,14 @@ public class ShopMenu : MonoBehaviour
         }
 
         _gameManager = GameManager.Instance;
-
-        UpdateCurrency();
         _selectedColor = _tabButtons[0].colors.selectedColor;
 
         _passiveItemTemplate.gameObject.SetActive(false);
         InitPassivePowers();
+        _launcherItemTemplate.gameObject.SetActive(false);
+        InitLaunchers();
 
+        UpdateShop();
         MusicManager.Instance.SetScene(1);
     }
 
@@ -87,12 +93,37 @@ public class ShopMenu : MonoBehaviour
     {
         ShopItem newShopItem = Instantiate(template, template.transform.parent);
 
-        newShopItem.Init(power, UpdateCurrency);
+        newShopItem.Init(power, UpdateShop);
         newShopItem.gameObject.SetActive(true);
     }
 
-    private void UpdateCurrency()
+    private void InitLaunchers()
+    {
+        foreach (GameObject launcher in _launchers)
+        {
+            SpawnLauncherItem(launcher.GetComponent<Launcher>(), _launcherItemTemplate);
+        }
+    }
+
+    private void SpawnLauncherItem(Launcher launcher, ChoiceItem template)
+    {
+        if (launcher.cost == 0)
+            GameManager.Instance.PurchaseLauncher(launcher.LauncherName, launcher.cost);
+        
+        ChoiceItem newChoiceItem = Instantiate(template, template.transform.parent);
+
+        newChoiceItem.InitLauncher(launcher, UpdateShop);
+        newChoiceItem.gameObject.SetActive(true);
+
+        _launcherItems.Add(newChoiceItem);
+    }
+
+    private void UpdateShop()
     {
         _currencyField.text = string.Format("{0} $now", _gameManager.metaSnow);
+
+        var launcherIndex = GameManager.Instance.chosenLauncherIndex;
+        foreach (var launcher in _launcherItems)
+            launcher.ChangeButtonColor(launcherIndex, _selectedColor);
     }
 }

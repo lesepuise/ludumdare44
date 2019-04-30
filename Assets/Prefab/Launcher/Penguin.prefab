@@ -76,6 +76,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e18f5ad99a405ea58dda8aa46afbcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LauncherName: Penguin
+  ShopImage: {fileID: 21300000, guid: ffde65aee1bbf1e4297c58b5d4cbd09c, type: 3}
+  cost: 3000
+  purchased: 0
   PlayerPosition: {fileID: 118642617}
   Active: 0
   State: 0
@@ -302,11 +306,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8606817882162123898, guid: 82bc21e14626f1348a0e0be9511ea9a8,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: ff61070003a503b4a8a00eb763cada15, type: 2}
     - target: {fileID: -8565680273232128185, guid: 82bc21e14626f1348a0e0be9511ea9a8,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -447,6 +446,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: aee2700fe40ec424fa164aa1e7538b4e, type: 2}
+    - target: {fileID: 8606817882162123898, guid: 82bc21e14626f1348a0e0be9511ea9a8,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ff61070003a503b4a8a00eb763cada15, type: 2}
     - target: {fileID: -110695524163808194, guid: 82bc21e14626f1348a0e0be9511ea9a8,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

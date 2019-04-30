@@ -185,12 +185,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dae0e645aed546e4a6a796cb0ecd1794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LauncherName: Cannon
+  ShopImage: {fileID: 21300000, guid: 847b9a5cc5fb9ce4698dd2d21f04b2c8, type: 3}
+  cost: 10000
+  purchased: 0
   PlayerPosition: {fileID: 2355325408972354537}
   Active: 0
+  State: 0
   SwivelBody: {fileID: 4491251529992247675}
   ShootingPoint: {fileID: 5222078599268061918}
   TorqueForce: {x: -25, y: 0, z: 0}
   ShootingStrength: 25
+  _cannonSound: {fileID: 0}
 --- !u!1 &5120001944171338521
 GameObject:
   m_ObjectHideFlags: 0

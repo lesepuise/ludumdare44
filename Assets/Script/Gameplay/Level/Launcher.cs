@@ -2,6 +2,11 @@
 
 public abstract class Launcher : MonoBehaviour
 {
+    public string LauncherName = "Unnamed Launcher";
+    public Sprite ShopImage = null;
+    public int cost = 1000;
+    public bool purchased = false;
+
     public Transform PlayerPosition;
     public bool Active;
     public ItemState State = ItemState.Unavailable;
@@ -9,6 +14,8 @@ public abstract class Launcher : MonoBehaviour
     public virtual void Init(Player player)
     {
         gameObject.SetActive(true);
+
+        purchased = GameManager.Instance.boughtLaunchers.Contains(LauncherName);
 
         Active = true;
         player.Pause();
