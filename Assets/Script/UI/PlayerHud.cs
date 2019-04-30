@@ -100,8 +100,8 @@ public class PlayerHud : Singleton<PlayerHud>
             yield return null;
 
             float currentTime = Time.time - startTime;
-            currentTime /= 5f;
-            currentTime *= currentTime;
+            currentTime /= 2f;
+            currentTime = Mathf.Pow(currentTime, 2.5f);
 
             shownPoints += Mathf.Max(1f, currentTime);
             shownPoints = Math.Min(shownPoints, points);
