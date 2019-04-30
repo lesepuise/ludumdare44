@@ -33,6 +33,7 @@ public class ChoiceItem : MonoBehaviour
 
     public void InitLauncher(Launcher launcher, Action callback)
     {
+        _itemIndex = launcher.Index;
         _updateShop = callback;
         _launcher = launcher;
         _launcherName = _launcher.LauncherName;

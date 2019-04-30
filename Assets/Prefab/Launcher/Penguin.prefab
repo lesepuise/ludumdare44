@@ -77,6 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LauncherName: Penguin
+  Index: 1
   ShopImage: {fileID: 21300000, guid: ffde65aee1bbf1e4297c58b5d4cbd09c, type: 3}
   cost: 3000
   purchased: 0

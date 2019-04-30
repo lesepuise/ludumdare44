@@ -3,6 +3,7 @@
 public abstract class Launcher : MonoBehaviour
 {
     public string LauncherName = "Unnamed Launcher";
+    public int Index;
     public Sprite ShopImage = null;
     public int cost = 1000;
     public bool purchased = false;
